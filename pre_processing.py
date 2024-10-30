@@ -5,8 +5,10 @@ import seaborn as sns
 from sklearn.preprocessing import StandardScaler, LabelEncoder
 from sklearn.impute import SimpleImputer
 
-
-# import data
+# Import data
+# @brief Importe les données à partir d'un fichier CSV
+# @param chemin Chemin vers le fichier CSV
+# @return pandas.DataFrame des données importées ou None si l'import échoue
 def import_data(chemin):
   # Import data
   try:
@@ -20,15 +22,19 @@ def import_data(chemin):
   return data
 
 # Remove missing values
+## @brief Calcule le pourcentage de valeurs manquantes pour chaque colonne du DataFrame
+# @param df pandas.DataFrame pour lequel on calcule les valeurs manquantes
+# @return pandas.Series contenant les pourcentages de valeurs manquantes pour chaque colonne
 def percent_missing(df):
   percent_nan = 100 * df.isnull().sum() / len(df)
   percent_nan = percent_nan[percent_nan > 0].sort_values()
 
   return percent_nan
 
-
-
 # Encoding categorical variables
+## @brief Encode les variables catégorielles en valeurs numériques
+# @param df pandas.DataFrame contenant les variables catégorielles à encoder
+# @return pandas.DataFrame avec les variables catégorielles encodées
 def encodage_variables_categorielles(df):
   print("Encodage des variables catégorielles...")
 
@@ -52,6 +58,9 @@ def encodage_variables_categorielles(df):
   return df
 
 # Gestion des valeurs manquantes
+## @brief Gère les valeurs manquantes en remplissant avec la médiane de chaque colonne
+# @param df pandas.DataFrame contenant des valeurs manquantes
+# @return pandas.DataFrame avec valeurs manquantes gérées
 def gestion_valeurs_manquantes(df):
   print("Gestion des valeurs manquantes...")
   # Remplissage des valeurs manquantes avec la médiane
@@ -59,7 +68,11 @@ def gestion_valeurs_manquantes(df):
   df = pd.DataFrame(imputer.fit_transform(df), columns=df.columns)
   return df
 
+
 # Gestion outliers
+## @brief Gère les valeurs aberrantes (outliers) pour les colonnes numériques
+# @param df pandas.DataFrame contenant les données à traiter
+# @return pandas.DataFrame avec outliers remplacés par la médiane
 def gestion_outliers(df):
   print("Gestion des outliers...")
   numerical_columns = df.select_dtypes(include=['float64', 'int64']).columns
@@ -75,6 +88,9 @@ def gestion_outliers(df):
 
   return df
 
+## @brief Standardise les données en utilisant StandardScaler
+# @param df pandas.DataFrame contenant les données à standardiser
+# @return pandas.DataFrame standardisé
 def gestion_standardisation(df):
   print("Standardisation des données...")
   # print(df.shape)
@@ -84,10 +100,29 @@ def gestion_standardisation(df):
 
 
 
-
 # Preprocessing
+## @brief Prépocesse le DataFrame en nettoyant et transformant les données
+# 
+# Effectue les étapes suivantes : suppression des doublons, des colonnes ayant >30% de valeurs manquantes,
+# encodage des variables catégorielles, gestion des valeurs manquantes et des outliers.
+#
+# @param df pandas.DataFrame à prétraiter
+# @return pandas.DataFrame après prétraitement
+# @details
+# Les étapes incluent :
+# - Suppression des doublons
+# - Suppression des colonnes avec >30% de valeurs manquantes
+# - Encodage des variables catégorielles
+# - Gestion des valeurs manquantes (par la médiane)
+# - Gestion des outliers (remplacés par la médiane)
+# 
+# @note
+# La normalisation est commentée car elle n'est pas nécessaire pour les arbres de décision.
+# 
+# @remark
+# Les données prétraitées sont exportées dans un fichier CSV "preprocessed_data.csv"
 def preprocess_data(df):
-  # Import data
+  print("Prétraitement des données...")
   # Remove duplicates
   df = df.drop_duplicates()
   # Remove missing values
@@ -110,36 +145,3 @@ def preprocess_data(df):
   print("Export réussi")
   return df
 
-# Test Values 
-from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import accuracy_score
-
-df = import_data('data/merged_69.csv')
-df = preprocess_data(df)
-print(df.info()) # Voir le type des colonnes : ne devrait avoir que des float64 car Encoding des variables catégorielles
-
-target = "Etiquette_DPE"
-X = df.drop(columns=[target])
-y = df[target]
-
-
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
-RF_model = RandomForestClassifier(n_estimators=100, random_state=42)
-print("Entrainement du modèle...")
-RF_model.fit(X_train, y_train)
-y_pred = RF_model.predict(X_test)
-print("Résultats du modèle...")
-accuracy = accuracy_score(y_test, y_pred)
-print(f"Accuracy: {accuracy}")
-
-print("Meilleures features...")
-feature_importances = RF_model.feature_importances_
-indices = np.argsort(feature_importances)[::-1]
-top_n = 5  # Limite à 5
-top_features = X.columns[indices[:top_n]]
-top_importances = feature_importances[indices[:top_n]]
-for i, feature in enumerate(top_features):
-  print(f"{i+1}. {feature}: {top_importances[i]}")
-
-print(f"Si on doit réduire la dimensions, il ne faudra garde que les {top_n} features ci-dessus")
