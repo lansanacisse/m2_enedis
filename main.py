@@ -18,11 +18,11 @@ def main():
     
     # Étape 2 : Exécution de la classification
     print("Exécution de la classification...")
-    run_classification()
+    # run_classification()
     
     # Étape 3 : Autres opérations (par exemple, des requêtes API si nécessaire)
     print("Appel d'API...")
-    Api.some_api_function()  # Remplacez 'some_api_function' par la fonction réelle de votre fichier Api.py
+    # Api.some_api_function()  # Remplacez 'some_api_function' par la fonction réelle de votre fichier Api.py
     
     print("Processus terminé.")
 
