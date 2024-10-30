@@ -1,18 +1,18 @@
 import streamlit as st
-from modeles import retrain_model, load_model
+from utils import retrain_model, load_model, predict
 
 # Paramètres par défaut pour chaque modèle
 default_params = {
     "Régression Linéaire": {"fit_intercept": True, "normalize": False},
     "Arbre de Décision": {
-        "criterion": "gini",
+        "criterion": "squared_error",  # Critère valide pour la régression
         "max_depth": None,
         "min_samples_split": 2,
         "min_samples_leaf": 1,
     },
     "Forêt Aléatoire": {
         "n_estimators": 100,
-        "criterion": "gini",
+        "criterion": "squared_error",  # Critère valide pour la régression
         "max_depth": None,
         "min_samples_split": 2,
         "min_samples_leaf": 1,
@@ -29,15 +29,11 @@ def get_model_params(model_option, default_params):
             "Ajouter une interception",
             value=default_params["Régression Linéaire"]["fit_intercept"],
         )
-        params["normalize"] = st.sidebar.checkbox(
-            "Normaliser les données",
-            value=default_params["Régression Linéaire"]["normalize"],
-        )
     elif model_option == "Arbre de Décision":
         params["criterion"] = st.sidebar.selectbox(
             "Critère",
-            ["gini", "entropy"],
-            index=["gini", "entropy"].index(
+            ["squared_error", "absolute_error", "friedman_mse", "poisson"],
+            index=["squared_error", "absolute_error", "friedman_mse", "poisson"].index(
                 default_params["Arbre de Décision"]["criterion"]
             ),
         )
@@ -64,8 +60,8 @@ def get_model_params(model_option, default_params):
         )
         params["criterion"] = st.sidebar.selectbox(
             "Critère",
-            ["gini", "entropy"],
-            index=["gini", "entropy"].index(
+            ["squared_error", "absolute_error", "friedman_mse", "poisson"],
+            index=["squared_error", "absolute_error", "friedman_mse", "poisson"].index(
                 default_params["Forêt Aléatoire"]["criterion"]
             ),
         )
@@ -111,14 +107,22 @@ def prediction_page():
 
     # Saisie des caractéristiques du logement pour la prédiction
     st.header("Entrez les caractéristiques du logement")
-    surface = st.number_input("Surface (m²)", key="surface")
-    nb_pieces = st.number_input("Nombre de pièces", key="nb_pieces")
-    annee_construction = st.number_input(
-        "Année de construction", key="annee_construction"
+
+    conso_primaire = st.number_input(
+        "Consommation 5 usages par m² (énergie primaire)", key="conso_primaire"
     )
+    emission_GES = st.number_input(
+        "Émission GES pour 5 usages par m²", key="emission_GES"
+    )
+    cout_eclairage = st.number_input("Coût éclairage", key="cout_eclairage")
 
     if st.button("Prédire", key="predict_button"):
+        # Appel à la fonction predict sans conso_finale
         cons_pred = predict(
-            surface, nb_pieces, annee_construction, model_option, **params
+            conso_primaire,
+            emission_GES,
+            cout_eclairage,
+            model_option,  # model_option est bien passé ici
+            **params,
         )
         st.write(f"Consommation Énergétique prédite: {cons_pred} kWh/m²/an")
