@@ -1,22 +1,49 @@
 import streamlit as st
 from utils import retrain_model, load_model, predict
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import plotly.express as px
+from io import BytesIO
+import streamlit as st
+from scipy import stats as ss
+from sklearn.neighbors import KNeighborsClassifier
+from xgboost import XGBRegressor
+from sklearn.tree import DecisionTreeRegressor
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.model_selection import train_test_split
+import joblib
 
 # Paramètres par défaut pour chaque modèle
+
 default_params = {
-    "Régression Linéaire": {"fit_intercept": True, "normalize": False},
+    "XGBoost": {
+        "objective": "reg:squarederror",  # Objective for regression
+        "n_estimators": 100,
+        "learning_rate": 0.1,
+        "max_depth": 6,
+        "subsample": 1.0,
+        "colsample_bytree": 1.0,
+    },
     "Arbre de Décision": {
-        "criterion": "squared_error",  # Critère valide pour la régression
+        "criterion": "squared_error",
         "max_depth": None,
         "min_samples_split": 2,
         "min_samples_leaf": 1,
     },
     "Forêt Aléatoire": {
         "n_estimators": 100,
-        "criterion": "squared_error",  # Critère valide pour la régression
+        "criterion": "squared_error",
         "max_depth": None,
         "min_samples_split": 2,
         "min_samples_leaf": 1,
         "bootstrap": True,
+    },
+    "K-nearest neighbors": {
+        "n_neighbors": 5,
+        "weights": "uniform",
+        "algorithm": "auto",
+        "leaf_size": 30,
     },
 }
 
@@ -24,10 +51,41 @@ default_params = {
 # Récupérer les paramètres du modèle à partir de la barre latérale
 def get_model_params(model_option, default_params):
     params = {}
-    if model_option == "Régression Linéaire":
-        params["fit_intercept"] = st.sidebar.checkbox(
-            "Ajouter une interception",
-            value=default_params["Régression Linéaire"]["fit_intercept"],
+    if model_option == "XGBoost":
+        params["objective"] = st.sidebar.selectbox(
+            "Objectif",
+            ["reg:squarederror", "reg:logistic"],
+            index=["reg:squarederror", "reg:logistic"].index(
+                default_params["XGBoost"]["objective"]
+            ),
+        )
+        params["n_estimators"] = st.sidebar.number_input(
+            "Nombre d'estimateurs",
+            min_value=1,
+            value=default_params["XGBoost"]["n_estimators"],
+        )
+        params["learning_rate"] = st.sidebar.number_input(
+            "Taux d'apprentissage",
+            min_value=0.01,
+            max_value=1.0,
+            value=default_params["XGBoost"]["learning_rate"],
+        )
+        params["max_depth"] = st.sidebar.number_input(
+            "Profondeur maximale",
+            min_value=1,
+            value=default_params["XGBoost"]["max_depth"],
+        )
+        params["subsample"] = st.sidebar.number_input(
+            "Échantillonage",
+            min_value=0.1,
+            max_value=1.0,
+            value=default_params["XGBoost"]["subsample"],
+        )
+        params["colsample_bytree"] = st.sidebar.number_input(
+            "Échantillonage par arbre",
+            min_value=0.1,
+            max_value=1.0,
+            value=default_params["XGBoost"]["colsample_bytree"],
         )
     elif model_option == "Arbre de Décision":
         params["criterion"] = st.sidebar.selectbox(
@@ -84,45 +142,149 @@ def get_model_params(model_option, default_params):
             "Utiliser le bootstrap",
             value=default_params["Forêt Aléatoire"]["bootstrap"],
         )
+    elif model_option == "K-nearest neighbors":
+        params["n_neighbors"] = st.sidebar.number_input(
+            "Nombre de voisins",
+            min_value=1,
+            value=default_params["K-nearest neighbors"]["n_neighbors"],
+        )
+        params["weights"] = st.sidebar.selectbox(
+            "Poids",
+            ["uniform", "distance"],
+            index=["uniform", "distance"].index(
+                default_params["K-nearest neighbors"]["weights"]
+            ),
+        )
+        params["algorithm"] = st.sidebar.selectbox(
+            "Algorithme",
+            ["auto", "ball_tree", "kd_tree", "brute"],
+            index=["auto", "ball_tree", "kd_tree", "brute"].index(
+                default_params["K-nearest neighbors"]["algorithm"]
+            ),
+        )
+        params["leaf_size"] = st.sidebar.number_input(
+            "Taille des feuilles",
+            min_value=1,
+            value=default_params["K-nearest neighbors"]["leaf_size"],
+        )
     return params
 
 
 # Prédire la consommation énergétique en fonction des caractéristiques du logement
 def prediction_page():
-    st.title("Prédiction DPE et Consommation Énergétique")
-
-    model_option = st.sidebar.selectbox(
-        "Choisissez un modèle de prédiction",
-        ["Régression Linéaire", "Arbre de Décision", "Forêt Aléatoire"],
+    # Choix du type de prédiction dans la barre latérale
+    prediction_type = st.sidebar.radio(
+        "Que souhaitez-vous prédire ?", ["Étiquette DPE", "Consommation Énergétique"]
     )
+    st.title(f"Prédiction {prediction_type}")
 
+    # Choix du modèle de prédiction dans la barre latérale en fonction du type de prédiction
+    if prediction_type == "Étiquette DPE":
+        model_option = st.sidebar.selectbox(
+            "Choisissez un modèle de prédiction",
+            ["K-nearest neighbors", "Forêt Aléatoire", "Arbre de Décision"],
+        )
+        target_variable = "Etiquette_DPE"
+    elif prediction_type == "Consommation Énergétique":
+        model_option = st.sidebar.selectbox(
+            "Choisissez un modèle de prédiction",
+            ["XGBoost", "Forêt Aléatoire", "Arbre de Décision"],
+        )
+        target_variable = "Conso_5_usages_é_finale"
+
+    # Récupération des paramètres du modèle
     params = get_model_params(model_option, default_params)
 
-    # Entraîner le modèle à nouveau avec les nouveaux paramètres si l'utilisateur le souhaite dans la barre latérale
+    # Option de réentraînement du modèle dans la barre latérale
     if st.sidebar.button("Réentraîner le modèle", key="retrain_button"):
-        model = retrain_model(model_option, params)
+        model = retrain_model(model_option, params, prediction_type)
         st.sidebar.success(f"Modèle {model_option} réentraîné avec succès.")
     else:
-        model = load_model(model_option)
+        model = load_model(model_option, target_variable)
 
-    # Saisie des caractéristiques du logement pour la prédiction
+    # Afficher les champs d'entrée selon le type de prédiction choisi
     st.header("Entrez les caractéristiques du logement")
-
-    conso_primaire = st.number_input(
-        "Consommation 5 usages par m² (énergie primaire)", key="conso_primaire"
-    )
-    emission_GES = st.number_input(
-        "Émission GES pour 5 usages par m²", key="emission_GES"
-    )
-    cout_eclairage = st.number_input("Coût éclairage", key="cout_eclairage")
-
-    if st.button("Prédire", key="predict_button"):
-        # Appel à la fonction predict sans conso_finale
-        cons_pred = predict(
-            conso_primaire,
-            emission_GES,
-            cout_eclairage,
-            model_option,  # model_option est bien passé ici
-            **params,
+    if prediction_type == "Consommation Énergétique":
+        # Champs d'entrée pour la consommation énergétique
+        surface_habitable = st.number_input(
+            "Surface habitable (m²)", key="surface_habitable"
         )
-        st.write(f"Consommation Énergétique prédite: {cons_pred} kWh/m²/an")
+        Ubat_W_m2_K = st.number_input("Ubat (W/m².K)", key="Ubat_W_m2_K")
+        Etiquette_DPE = st.number_input("Étiquette DPE", key="etiquette_dpe")
+        Type_energie_principale_chauffage = st.number_input(
+            "Type d'énergie principale de chauffage",
+            key="type_energie_principale_chauffage",
+        )
+        if st.button("Prédire la consommation énergétique", key="predict_button_conso"):
+            # Vérifier si tous les champs sont renseignés
+            if (
+                not surface_habitable
+                or not Ubat_W_m2_K
+                or not Etiquette_DPE
+                or not Type_energie_principale_chauffage
+            ):
+                st.warning(
+                    "Veuillez saisir toutes les caractéristiques du logement avant de lancer la prédiction."
+                )
+            else:
+                conso_energetique = predict(
+                    type_prediction="Consommation Énergétique",
+                    model=model,
+                    surface_habitable=surface_habitable,
+                    Ubat_W_m2_K=Ubat_W_m2_K,
+                    etiquette_dpe=Etiquette_DPE,
+                    type_energie_chauffage=Type_energie_principale_chauffage,
+                    **params,
+                )
+                st.write(
+                    f"D'après les caractéristiques du logement, la consommation énergétique prédite est de {conso_energetique:.2f} kWh/m²/an "
+                )
+    elif prediction_type == "Étiquette DPE":
+        # Champs d'entrée pour l'étiquette DPE
+        conso_chauffage = st.number_input(
+            "Consommation chauffage en énergie primaire", key="conso_chauffage"
+        )
+        conso_5_usages_finale = st.number_input(
+            "Consommation 5 usages en énergie finale", key="conso_5_usages_finale"
+        )
+        emission_GES = st.number_input(
+            "Émission GES pour 5 usages par m²", key="emission_GES"
+        )
+        etiquette_GES = st.number_input("Étiquette GES", key="etiquette_GES")
+        cout_eclairage = st.number_input("Coût éclairage", key="cout_eclairage")
+        if st.button("Prédire l'étiquette DPE", key="predict_button_dpe"):
+            # Vérifier si tous les champs sont renseignés
+            if (
+                not conso_chauffage
+                or not conso_5_usages_finale
+                or not emission_GES
+                or not etiquette_GES
+                or not cout_eclairage
+            ):
+                st.warning(
+                    "Veuillez saisir toutes les caractéristiques du logement avant de lancer la prédiction."
+                )
+            else:
+                etiq_dpe = predict(
+                    type_prediction="Étiquette DPE",
+                    model=model,
+                    conso_chauffage=conso_chauffage,
+                    conso_5_usages_finale=conso_5_usages_finale,
+                    emission_ges=emission_GES,
+                    etiquette_GES=etiquette_GES,
+                    cout_eclairage=cout_eclairage,
+                    **params,
+                )
+                etiquette_dpe_map = {
+                    0: "A",
+                    1: "B",
+                    2: "C",
+                    3: "D",
+                    4: "E",
+                    5: "F",
+                    6: "G",
+                }
+                etiq_dpe = etiquette_dpe_map.get(etiq_dpe)
+                st.write(
+                    f"D'après les caractéristiques du logement, l'étiquette DPE prédite est: {etiq_dpe}"
+                )

@@ -23,7 +23,7 @@ def donnees_page():
     )
 
     # Charger les données
-    data = pd.read_csv("../data/merged_69_cleaned.csv")
+    data = pd.read_csv("../data/preprocessed_data.csv")
 
     # Filtres
     st.sidebar.subheader("Filtres")

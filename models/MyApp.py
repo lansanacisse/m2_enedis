@@ -23,29 +23,3 @@ elif page == "Analyse":
 elif page == "Prédiction":
     prediction_page()
     # Bouton pour réentraîner le modèle
-
-
-# Sélecteur de thème
-theme = st.sidebar.selectbox("Choisissez un thème", ["Clair", "Sombre"])
-
-# Appliquer le thème sélectionné
-if theme == "Clair":
-    st.markdown(
-        """
-        <style>
-        .main { background-color: #ffffff; color: #000000; }
-        .sidebar .sidebar-content { background-color: #f0f2f6; }
-        </style>
-        """,
-        unsafe_allow_html=True,
-    )
-else:
-    st.markdown(
-        """
-        <style>
-        .main { background-color: #0e1117; color: #ffffff; }
-        .sidebar .sidebar-content { background-color: #262730; }
-        </style>
-        """,
-        unsafe_allow_html=True,
-    )
