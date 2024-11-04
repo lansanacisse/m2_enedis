@@ -4,3 +4,8 @@ data/merged_69.csv
 data/neufs_69.csv
 __pycache__/pre_processing.cpython-311.pyc
 data/preprocessed_data.csv
+models/__pycache__/accueil.cpython-311.pyc
+models/__pycache__/analyse.cpython-311.pyc
+models/__pycache__/donnees.cpython-311.pyc
+models/__pycache__/prediction.cpython-311.pyc
+models/__pycache__/utils.cpython-311.pyc
