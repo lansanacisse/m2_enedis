@@ -60,7 +60,7 @@ Cette application permet d'analyser et de prédire le Diagnostic de Performance 
 
 - [Lansana CISSE](https://github.com/lansanacisse)
 - [Quentin Lim](https://github.com/QL2111)
-- [Linh Nhi](https://github.com/Linn2d)
+- [Linh Nhi LE DINH](https://github.com/Linn2d)
 
 
 ## Documentation
