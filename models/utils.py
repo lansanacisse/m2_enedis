@@ -12,32 +12,76 @@ from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import train_test_split
 import joblib
+import matplotlib.pyplot as plt
+import seaborn as sns
 
+def create_styled_pie_chart(labels, sizes):
+    # Choisir des couleurs attrayantes
+    colors = sns.color_palette("Set3", len(labels))
+    
+    fig, ax = plt.subplots(figsize=(8, 8))
+    wedges, texts, autotexts = ax.pie(
+        sizes, labels=labels, autopct='%1.1f%%', startangle=140, colors=colors, wedgeprops={'edgecolor': 'black'}
+    )
+    ax.set_title("Répartition des valeurs", fontsize=14, weight='bold')
+    
+    # Améliorer la lisibilité
+    for text in autotexts + texts:
+        text.set_fontsize(12)
+        text.set_fontweight('bold')
 
-def create_pie_chart(labels, sizes):
-    fig, ax = plt.subplots()
-    ax.pie(sizes, labels=labels, autopct="%1.1f%%", startangle=90)
-    ax.axis("equal")  # Assure que le graphique est un cercle
+    plt.tight_layout()
     return fig
 
-
-def create_bar_chart(labels, sizes):
-    fig, ax = plt.subplots()
-    ax.bar(labels, sizes)
+def create_styled_bar_chart(labels, values):
+    fig, ax = plt.subplots(figsize=(10, 6))
+    
+    # Utiliser seaborn pour des barres plus esthétiques
+    sns.barplot(x=labels, y=values, palette="viridis", ax=ax)
+    
+    ax.set_title("Répartition des données par catégorie", fontsize=14, weight='bold')
+    ax.set_xlabel("Catégories", fontsize=12)
+    ax.set_ylabel("Valeurs", fontsize=12)
+    
+    plt.xticks(rotation=45)
+    plt.tight_layout()
     return fig
 
+def create_styled_histogram(values):
+    fig, ax = plt.subplots(figsize=(10, 6))
 
-def create_line_chart(labels, sizes):
-    fig, ax = plt.subplots()
-    ax.plot(
-        labels, sizes, marker="o"
-    )  # Ajout de marqueurs pour une meilleure lisibilité
+    # Tracer l'histogramme avec seaborn
+    sns.histplot(values, kde=True, color='skyblue', bins=20, ax=ax)
+    
+    ax.set_title("Distribution des valeurs", fontsize=14, weight='bold')
+    ax.set_xlabel("Valeurs", fontsize=12)
+    ax.set_ylabel("Fréquence", fontsize=12)
+    
+    plt.tight_layout()
     return fig
 
+def create_styled_line_chart(x, y):
+    """
+    Crée un graphique en ligne stylisé avec seaborn et matplotlib.
 
-def create_histogram(sizes, labels):
-    fig, ax = plt.subplots()
-    ax.hist(sizes, bins=len(labels), edgecolor="black")
+    Parameters:
+    - x : Liste ou array des valeurs pour l'axe X.
+    - y : Liste ou array des valeurs pour l'axe Y.
+
+    Returns:
+    - fig : Figure matplotlib du graphique en ligne.
+    """
+    fig, ax = plt.subplots(figsize=(10, 6))
+
+    # Tracer le graphique en ligne avec seaborn
+    sns.lineplot(x=x, y=y, marker="o", color="b", ax=ax)
+    
+    ax.set_title("Évolution des valeurs", fontsize=14, weight='bold')
+    ax.set_xlabel("Catégories", fontsize=12)
+    ax.set_ylabel("Valeurs", fontsize=12)
+    
+    # Affichage plus esthétique
+    plt.tight_layout()
     return fig
 
 
@@ -51,7 +95,6 @@ def save_fig_as_png(fig, filename):
         file_name=f"{filename}.png",
         mime="image/png",
     )
-
 
 # Fonction pour charger un modèle spécifique
 def load_model(model_option, target_variable):
@@ -70,7 +113,6 @@ def load_model(model_option, target_variable):
     model_file = models[target_variable][model_option]
     model = joblib.load(model_file)
     return model
-
 
 # Entraîner et sauvegarder les modèles
 def train_and_save_models(data_path, target_variable):
@@ -195,88 +237,6 @@ def retrain_model(
     # Sauvegarder le modèle
     joblib.dump(model, model_filename)
     return model
-
-
-# Mapping des valeurs pour les encodages
-encoding_maps = {
-    "Type_bâtiment": {"Maison": 0.0, "Appartement": 1.0, "Immeuble": 2.0},
-    "Qualité_isolation_enveloppe": {
-        "insuffisante": 0.0,
-        "moyenne": 1.0,
-        "bonne": 2.0,
-        "très bonne": 3.0,
-    },
-    "Etiquette_GES": {
-        "A": 0.0,
-        "B": 1.0,
-        "C": 2.0,
-        "D": 3.0,
-        "E": 4.0,
-        "F": 5.0,
-        "G": 6.0,
-    },
-    "Etiquette_DPE": {
-        "A": 0.0,
-        "B": 1.0,
-        "C": 2.0,
-        "D": 3.0,
-        "E": 4.0,
-        "F": 5.0,
-        "G": 6.0,
-    },
-    "Type_installation_chauffage": {
-        "individuel": 0.0,
-        "collectif": 1.0,
-        "mixte (collectif-individuel)": 2.0,
-    },
-    "Type_énergie_n°1": {
-        "Gaz naturel": 0.0,
-        "Électricité": 1.0,
-        "Réseau de Chauffage urbain": 2.0,
-        "Bois – Granulés (pellets) ou briquettes": 3.0,
-        "Fioul domestique": 4.0,
-    },
-    "Méthode_application_DPE": {
-        "dpe appartement individuel": 0.0,
-        "dpe appartement généré à partir des données DPE immeuble": 1.0,
-        "dpe maison individuelle": 2.0,
-        "dpe issu d'une étude thermique réglementaire RT2012 bâtiment : appartement": 3.0,
-        "dpe issu d'une étude thermique réglementaire RT2012 bâtiment : maison individuelle": 4.0,
-        "dpe immeuble collectif": 5.0,
-    },
-    "Qualité_isolation_murs": {
-        "insuffisante": 0.0,
-        "moyenne": 1.0,
-        "bonne": 2.0,
-        "très bonne": 3.0,
-    },
-    "Qualité_isolation_plancher_bas": {
-        "insuffisante": 0.0,
-        "moyenne": 1.0,
-        "bonne": 2.0,
-        "très bonne": 3.0,
-    },
-    "Qualité_isolation_menuiseries": {
-        "insuffisante": 0.0,
-        "moyenne": 1.0,
-        "bonne": 2.0,
-        "très bonne": 3.0,
-    },
-}
-
-
-# Fonction d'encodage des données d'entrée
-def encode_input_data(input_data):
-    encoded_data = {}
-    for column, value in input_data.items():
-        if column in encoding_maps:
-            encoded_data[column] = float(encoding_maps[column].get(value, None))
-        else:
-            encoded_data[column] = value
-    return encoded_data
-
-
-import pandas as pd
 
 # Mapping des valeurs pour les encodages
 encoding_maps = {

@@ -3,13 +3,7 @@ import numpy as np
 import pandas as pd
 from io import BytesIO
 import matplotlib.pyplot as plt
-from utils import (
-    save_fig_as_png,
-    create_pie_chart,
-    create_bar_chart,
-    create_line_chart,
-    create_histogram,
-)
+
 
 
 def contexte_page():
@@ -23,7 +17,7 @@ def contexte_page():
     )
 
     # Charger les données
-    data = pd.read_csv("../data/merged_69.csv", sep=";")
+    data = pd.read_csv("../data/sample.csv", sep=";")
 
     # Filtres
     st.sidebar.subheader("Filtres")
@@ -76,64 +70,5 @@ def contexte_page():
         file_name='donnees_filtres.csv',
         mime='text/csv',
     )
-    
-    st.title("Visualisation des Données")
-
-    
-    # Choix du graphique
-    st.sidebar.subheader("Choix du graphique")
-    option = st.sidebar.selectbox(
-        "Type de graphique:", ("Barres", "Camembert", "Lignes", "Histogramme")
-    )
-
-        # Affichage du graphique selon le choix de l'utilisateur
-    if option == "Camembert":
-        fig = create_pie_chart(
-            filtered_data[filter_variable].value_counts().index,
-            filtered_data[filter_variable].value_counts(),
-        )
-        st.pyplot(fig)
-        if st.button("Télécharger le Camembert en PNG"):
-            save_fig_as_png(fig, "camembert")
-
-    elif option == "Barres":
-        fig = create_bar_chart(
-            filtered_data[filter_variable].value_counts().index,
-            filtered_data[filter_variable].value_counts(),
-        )
-        st.pyplot(fig)
-        if st.button("Télécharger les Barres en PNG"):
-            save_fig_as_png(fig, "barres")
-
-    elif option == "Lignes":
-        fig = create_line_chart(
-            filtered_data[filter_variable].value_counts().index,
-            filtered_data[filter_variable].value_counts(),
-        )
-        st.pyplot(fig)
-        if st.button("Télécharger les Lignes en PNG"):
-            save_fig_as_png(fig, "lignes")
-
-    elif option == "Histogramme":
-        fig = create_histogram(
-            filtered_data[filter_variable].value_counts(),
-            filtered_data[filter_variable].value_counts().index,
-        )
-        st.pyplot(fig)
-        if st.button("Télécharger l'Histogramme en PNG"):
-            save_fig_as_png(fig, "histogramme")
 
 
-# Données géographiques
-def visualisation_geographique():
-    st.sidebar.subheader("Carte géographique")
-
-    # Charger les données
-    data = pd.read_csv("../data/merged_69.csv", sep=";")
-
-    # Vérifier que le fichier contient des colonnes latitude et longitude
-    if "lat" in data.columns and "lon" in data.columns:
-        st.subheader("Carte géographique des données")
-        st.map(data[["lat", "lon"]])
-    else:
-        st.sidebar.error("Le fichier CSV doit contenir des colonnes 'lat' et 'lon'.")

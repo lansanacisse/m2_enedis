@@ -1,70 +1,95 @@
 import streamlit as st
 import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
-import plotly.graph_objects as go
+from utils import (
+   create_styled_line_chart,
+   create_styled_histogram,
+   create_styled_bar_chart,
+   create_styled_pie_chart
+)
 
-# Charger les données
-data = pd.read_csv('../data/merged_69.csv', sep=';')
+def analyse_page():
+    st.title("Analyse des Données")
 
-# Titre de l'application
-st.title("Analyse des Performances Energétiques des Logements")
+    st.write(
+        """
+        Cette page permet d'analyser les données de performance énergétique des logements en France.
+        Vous pouvez visualiser les données sous forme de graphiques pour mieux comprendre les tendances
+        et les relations entre les différentes variables.
+    """
+    )
+data = pd.read_csv("../data/merged_69.csv", sep=";")
 
-# KPI 1: Consommation énergétique moyenne par m² (Gauge Chart)
-st.header("Consommation énergétique moyenne par m²")
-mean_energy = data['Conso_5_usages_par_m²_é_primaire'].mean()
+def visualisation_graphique():
+    # Charger les données
+    data = pd.read_csv("../data/merged_69.csv", sep=";")
 
-fig = go.Figure(go.Indicator(
-    mode="gauge+number",
-    value=mean_energy,
-    title={'text': "Consommation moyenne (kWh/m²)"},
-    gauge={'axis': {'range': [0, max(data['Conso_5_usages_par_m²_é_primaire'])]},
-           'bar': {'color': "blue"}}
-))
-st.plotly_chart(fig)
+    st.title("Visualisation des Données")
 
-# KPI 2: Émissions GES moyennes par m² (Line Chart)
-st.header("Émissions de GES moyennes par m²")
-if 'Date' in data.columns:  # Vérifie si des données temporelles sont présentes
-    data['Date'] = pd.to_datetime(data['Date'], errors='coerce')
-    data = data.dropna(subset=['Date'])
-    ges_time = data.groupby(data['Date'].dt.year)['Emission_GES_5_usages_énergie_n°2'].mean()
+    # Choix du graphique
+    st.sidebar.subheader("Choix du graphique")
+    option = st.sidebar.selectbox(
+        "Type de graphique:", ("Barres", "Camembert", "Lignes", "Histogramme")
+    )
 
-    fig, ax = plt.subplots()
-    ax.plot(ges_time.index, ges_time.values, color='green', marker='o')
-    ax.set_title("Évolution des émissions GES moyennes par an")
-    ax.set_xlabel("Année")
-    ax.set_ylabel("Émissions GES (kgCO2/m²)")
-    st.pyplot(fig)
-else:
-    mean_ges = data['Emission_GES_5_usages_énergie_n°2'].mean()
-    st.metric("Émissions moyennes (kgCO2/m²)", f"{mean_ges:.2f}")
+    # Sélection de la variable à utiliser pour la visualisation
+    st.sidebar.subheader("Choisissez une variable pour visualisation")
+    filter_variable = st.sidebar.selectbox(
+        "Choisissez une variable:", data.columns
+    )
 
-# KPI 3: Répartition des classes énergétiques (DPE) (Pie Chart)
-st.header("Répartition des classes énergétiques (DPE)")
-dpe_counts = data['Classe_DPE'].value_counts()
-fig, ax = plt.subplots()
-ax.pie(dpe_counts, labels=dpe_counts.index, autopct='%1.1f%%', startangle=90, colors=sns.color_palette("pastel"))
-ax.axis('equal')
-st.pyplot(fig)
+    # Filtrer les données selon la variable choisie
+    filtered_data = data[filter_variable].dropna()
 
-# KPI 4: Coût énergétique moyen par type (Group Bar Chart)
-st.header("Coût énergétique moyen par type")
-costs = {
-    "Chauffage": data['Coût_chauffage_dépensier'].mean(),
-    "Refroidissement": data['Coût_refroidissement_dépensier'].mean(),
-    "Auxiliaires": data['Coût_auxiliaires'].mean()
-}
-cost_df = pd.DataFrame.from_dict(costs, orient='index', columns=['Coût moyen (€)'])
-st.bar_chart(cost_df)
+    # Affichage du graphique selon le choix de l'utilisateur
+    if option == "Camembert":
+        fig = create_styled_pie_chart(
+            filtered_data.value_counts().index,
+            filtered_data.value_counts(),
+        )
+        st.pyplot(fig)
+        if st.button("Télécharger le Camembert en PNG"):
+            save_fig_as_png(fig, "camembert")
 
-# KPI 5: Distribution de la qualité de l'isolation (Histogram)
-st.header("Qualité de l'isolation des menuiseries")
-insulation_counts = data['Qualité_isolation_menuiseries'].value_counts()
-fig, ax = plt.subplots()
-sns.barplot(x=insulation_counts.index, y=insulation_counts.values, ax=ax, palette="coolwarm")
-ax.set_xlabel("Qualité de l'isolation")
-ax.set_ylabel("Nombre de logements")
-st.pyplot(fig)
+    elif option == "Barres":
+        fig = create_styled_bar_chart(
+            filtered_data.value_counts().index,
+            filtered_data.value_counts(),
+        )
+        st.pyplot(fig)
+        if st.button("Télécharger les Barres en PNG"):
+            save_fig_as_png(fig, "barres")
 
-st.write("Les KPI ci-dessus fournissent une vue d'ensemble de la performance énergétique des logements.")
+    elif option == "Lignes":
+        fig = create_styled_line_chart(
+            filtered_data.value_counts().index,
+            filtered_data.value_counts(),
+        )
+        st.pyplot(fig)
+        if st.button("Télécharger les Lignes en PNG"):
+            save_fig_as_png(fig, "lignes")
+
+    elif option == "Histogramme":
+        fig = create_styled_histogram(
+            filtered_data.value_counts(),
+        )
+        st.pyplot(fig)
+        if st.button("Télécharger l'Histogramme en PNG"):
+            save_fig_as_png(fig, "histogramme")
+
+
+def afficher_carte(data):
+    """
+    Affiche une carte avec des marqueurs pour chaque point dans les données.
+    """
+    # Créer une carte centrée sur la France
+    m = folium.Map(location=[46.603354, 1.888334], zoom_start=5)
+
+    # Ajouter des marqueurs à la carte
+    for index, row in data.iterrows():
+        folium.Marker(
+            location=[row['lat'], row['lon']],
+            popup=row.get('name', 'No name')  # Utilise 'No name' si la colonne 'name' n'existe pas
+        ).add_to(m)
+
+    # Afficher la carte dans Streamlit
+    folium_static(m)

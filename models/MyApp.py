@@ -1,26 +1,45 @@
 import streamlit as st
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import plotly.express as px
 from accueil import accueil_page
 from analyse import analyse_page
 from prediction import prediction_page
-from contexte import contexte_page, visualisation_geographique
+from contexte import contexte_page
+from analyse import visualisation_graphique, afficher_carte
 
+# Configuration de la page
+st.set_page_config(page_title="GreeTech App", page_icon="⚡", layout="wide")
 
-# Barre de navigation latérale
+# Barre latérale de navigation avec icônes dans une liste déroulante
 st.sidebar.header("GreeTech App ⚡")
-page = st.sidebar.selectbox("Pages", ["Acceuil", "Contexte", "Analyse", "Prédiction"])
+options = {
+    "🏠 Accueil": "accueil",
+    "📊 Contexte": "contexte",
+    "🔍 Analyse": "analyse",
+    "🔮 Prédiction": "prediction"
+}
 
-# Pages de l'application
-if page == "Acceuil":
+# Liste déroulante pour la navigation
+selected_page = st.sidebar.selectbox(
+    "Sélectionner une page", 
+    options=list(options.keys())
+)
+
+# Déterminer la page sélectionnée à partir de la sélection dans la liste déroulante
+page_key = options[selected_page]
+
+# Afficher le contenu de la page sélectionnée
+if page_key == "accueil":
     accueil_page()
-elif page == "Contexte":
+elif page_key == "contexte":
     contexte_page()
-    visualisation_geographique()
-elif page == "Analyse":
+
+elif page_key == "analyse":
     analyse_page()
-elif page == "Prédiction":
+    visualisation_graphique()
+    afficher_carte()
+elif page_key == "prediction":
     prediction_page()
-    # Bouton pour réentraîner le modèle
+    
+
+# Pied de page avec logos
+st.sidebar.markdown("---")
+st.sidebar.info("© 2024 GreeTech App. Tous droits réservés.")
