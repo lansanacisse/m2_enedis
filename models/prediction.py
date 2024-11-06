@@ -1,5 +1,5 @@
 import streamlit as st
-from utils import retrain_model, load_model, predict
+from utils import retrain_model, load_model, predict, encode_input_data
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -204,41 +204,95 @@ def prediction_page():
 
     # Afficher les champs d'entrée selon le type de prédiction choisi
     st.header("Entrez les caractéristiques du logement")
+
     if prediction_type == "Consommation Énergétique":
-        # Champs d'entrée pour la consommation énergétique
-        surface_habitable = st.number_input(
-            "Surface habitable (m²)", key="surface_habitable"
+        # Champs de sélection pour les variables à encoder
+        type_batiment = st.selectbox(
+            "Type de bâtiment", ["Maison", "Appartement", "Immeuble"]
         )
-        Ubat_W_m2_K = st.number_input("Ubat (W/m².K)", key="Ubat_W_m2_K")
-        Etiquette_DPE = st.number_input("Étiquette DPE", key="etiquette_dpe")
-        Type_energie_principale_chauffage = st.number_input(
-            "Type d'énergie principale de chauffage",
-            key="type_energie_principale_chauffage",
+        qualite_isolation_enveloppe = st.selectbox(
+            "Qualité de l'isolation de l'enveloppe",
+            ["insuffisante", "moyenne", "bonne", "très bonne"],
         )
+        etiquette_GES = st.selectbox(
+            "Étiquette GES", ["A", "B", "C", "D", "E", "F", "G"]
+        )
+        surface_habitable_logement = st.number_input(
+            "Surface habitable du logement (m²)", min_value=0.0
+        )
+        etiquette_DPE = st.selectbox(
+            "Étiquette DPE", ["A", "B", "C", "D", "E", "F", "G"]
+        )
+        type_installation_chauffage = st.selectbox(
+            "Type d'installation de chauffage",
+            ["individuel", "collectif", "mixte (collectif-individuel)"],
+        )
+        Ubat_W_m2_K = st.number_input("Ubat (W/m².K)", min_value=0.0)
+        qualite_isolation_murs = st.selectbox(
+            "Qualité de l'isolation des murs",
+            ["insuffisante", "moyenne", "bonne", "très bonne"],
+        )
+        type_energie_n1 = st.selectbox(
+            "Type d'énergie n°1",
+            [
+                "Gaz naturel",
+                "Électricité",
+                "Réseau de Chauffage urbain",
+                "Bois – Granulés (pellets) ou briquettes",
+                "Fioul domestique",
+            ],
+        )
+        qualite_isolation_plancher_bas = st.selectbox(
+            "Qualité de l'isolation du plancher bas",
+            ["insuffisante", "moyenne", "bonne", "très bonne"],
+        )
+        methode_application_DPE = st.selectbox(
+            "Méthode d'application du DPE",
+            [
+                "dpe appartement individuel",
+                "dpe appartement généré à partir des données DPE immeuble",
+                "dpe maison individuelle",
+                "dpe issu d'une étude thermique réglementaire RT2012 bâtiment : appartement",
+                "dpe issu d'une étude thermique réglementaire RT2012 bâtiment : maison individuelle",
+                "dpe immeuble collectif",
+            ],
+        )
+        qualite_isolation_menuiseries = st.selectbox(
+            "Qualité de l'isolation des menuiseries",
+            ["insuffisante", "moyenne", "bonne", "très bonne"],
+        )
+        # Bouton pour lancer la prédiction de la consommation énergétique
         if st.button("Prédire la consommation énergétique", key="predict_button_conso"):
-            # Vérifier si tous les champs sont renseignés
-            if (
-                not surface_habitable
-                or not Ubat_W_m2_K
-                or not Etiquette_DPE
-                or not Type_energie_principale_chauffage
-            ):
-                st.warning(
-                    "Veuillez saisir toutes les caractéristiques du logement avant de lancer la prédiction."
-                )
+            # Organisation des données d'entrée
+            input_data = {
+                "Type_bâtiment": type_batiment,
+                "Qualité_isolation_enveloppe": qualite_isolation_enveloppe,
+                "Etiquette_GES": etiquette_GES,
+                "Surface_habitable_logement": surface_habitable_logement,
+                "Etiquette_DPE": etiquette_DPE,
+                "Type_installation_chauffage": type_installation_chauffage,
+                "Ubat_W/m²_K": Ubat_W_m2_K,
+                "Qualité_isolation_murs": qualite_isolation_murs,
+                "Type_énergie_n°1": type_energie_n1,
+                "Qualité_isolation_plancher_bas": qualite_isolation_plancher_bas,
+                "Méthode_application_DPE": methode_application_DPE,
+                "Qualité_isolation_menuiseries": qualite_isolation_menuiseries,
+            }
+
+            # Vérifier si toutes les données nécessaires sont bien renseignées
+            if any(value is None or value == 0.0 for value in input_data.values()):
+                st.warning("Certaines valeurs ne sont pas renseignées correctement.")
             else:
+                # Appel de la fonction de prédiction avec les données non encodées
                 conso_energetique = predict(
                     type_prediction="Consommation Énergétique",
                     model=model,
-                    surface_habitable=surface_habitable,
-                    Ubat_W_m2_K=Ubat_W_m2_K,
-                    etiquette_dpe=Etiquette_DPE,
-                    type_energie_chauffage=Type_energie_principale_chauffage,
-                    **params,
+                    **input_data,
                 )
                 st.write(
-                    f"D'après les caractéristiques du logement, la consommation énergétique prédite est de {conso_energetique:.2f} kWh/m²/an "
+                    f"D'après les caractéristiques du logement, la consommation énergétique prédite est de {conso_energetique:.2f} kWh/m²/an"
                 )
+
     elif prediction_type == "Étiquette DPE":
         # Champs d'entrée pour l'étiquette DPE
         conso_chauffage = st.number_input(

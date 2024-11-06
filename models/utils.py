@@ -197,7 +197,166 @@ def retrain_model(
     return model
 
 
-# Prediction function
+# Mapping des valeurs pour les encodages
+encoding_maps = {
+    "Type_bâtiment": {"Maison": 0.0, "Appartement": 1.0, "Immeuble": 2.0},
+    "Qualité_isolation_enveloppe": {
+        "insuffisante": 0.0,
+        "moyenne": 1.0,
+        "bonne": 2.0,
+        "très bonne": 3.0,
+    },
+    "Etiquette_GES": {
+        "A": 0.0,
+        "B": 1.0,
+        "C": 2.0,
+        "D": 3.0,
+        "E": 4.0,
+        "F": 5.0,
+        "G": 6.0,
+    },
+    "Etiquette_DPE": {
+        "A": 0.0,
+        "B": 1.0,
+        "C": 2.0,
+        "D": 3.0,
+        "E": 4.0,
+        "F": 5.0,
+        "G": 6.0,
+    },
+    "Type_installation_chauffage": {
+        "individuel": 0.0,
+        "collectif": 1.0,
+        "mixte (collectif-individuel)": 2.0,
+    },
+    "Type_énergie_n°1": {
+        "Gaz naturel": 0.0,
+        "Électricité": 1.0,
+        "Réseau de Chauffage urbain": 2.0,
+        "Bois – Granulés (pellets) ou briquettes": 3.0,
+        "Fioul domestique": 4.0,
+    },
+    "Méthode_application_DPE": {
+        "dpe appartement individuel": 0.0,
+        "dpe appartement généré à partir des données DPE immeuble": 1.0,
+        "dpe maison individuelle": 2.0,
+        "dpe issu d'une étude thermique réglementaire RT2012 bâtiment : appartement": 3.0,
+        "dpe issu d'une étude thermique réglementaire RT2012 bâtiment : maison individuelle": 4.0,
+        "dpe immeuble collectif": 5.0,
+    },
+    "Qualité_isolation_murs": {
+        "insuffisante": 0.0,
+        "moyenne": 1.0,
+        "bonne": 2.0,
+        "très bonne": 3.0,
+    },
+    "Qualité_isolation_plancher_bas": {
+        "insuffisante": 0.0,
+        "moyenne": 1.0,
+        "bonne": 2.0,
+        "très bonne": 3.0,
+    },
+    "Qualité_isolation_menuiseries": {
+        "insuffisante": 0.0,
+        "moyenne": 1.0,
+        "bonne": 2.0,
+        "très bonne": 3.0,
+    },
+}
+
+
+# Fonction d'encodage des données d'entrée
+def encode_input_data(input_data):
+    encoded_data = {}
+    for column, value in input_data.items():
+        if column in encoding_maps:
+            encoded_data[column] = float(encoding_maps[column].get(value, None))
+        else:
+            encoded_data[column] = value
+    return encoded_data
+
+
+import pandas as pd
+
+# Mapping des valeurs pour les encodages
+encoding_maps = {
+    "Type_bâtiment": {"Maison": 0.0, "Appartement": 1.0, "Immeuble": 2.0},
+    "Qualité_isolation_enveloppe": {
+        "insuffisante": 0.0,
+        "moyenne": 1.0,
+        "bonne": 2.0,
+        "très bonne": 3.0,
+    },
+    "Etiquette_GES": {
+        "A": 0.0,
+        "B": 1.0,
+        "C": 2.0,
+        "D": 3.0,
+        "E": 4.0,
+        "F": 5.0,
+        "G": 6.0,
+    },
+    "Etiquette_DPE": {
+        "A": 0.0,
+        "B": 1.0,
+        "C": 2.0,
+        "D": 3.0,
+        "E": 4.0,
+        "F": 5.0,
+        "G": 6.0,
+    },
+    "Type_installation_chauffage": {
+        "individuel": 0.0,
+        "collectif": 1.0,
+        "mixte (collectif-individuel)": 2.0,
+    },
+    "Type_énergie_n°1": {
+        "Gaz naturel": 0.0,
+        "Électricité": 1.0,
+        "Réseau de Chauffage urbain": 2.0,
+        "Bois – Granulés (pellets) ou briquettes": 3.0,
+        "Fioul domestique": 4.0,
+    },
+    "Méthode_application_DPE": {
+        "dpe appartement individuel": 0.0,
+        "dpe appartement généré à partir des données DPE immeuble": 1.0,
+        "dpe maison individuelle": 2.0,
+        "dpe issu d'une étude thermique réglementaire RT2012 bâtiment : appartement": 3.0,
+        "dpe issu d'une étude thermique réglementaire RT2012 bâtiment : maison individuelle": 4.0,
+        "dpe immeuble collectif": 5.0,
+    },
+    "Qualité_isolation_murs": {
+        "insuffisante": 0.0,
+        "moyenne": 1.0,
+        "bonne": 2.0,
+        "très bonne": 3.0,
+    },
+    "Qualité_isolation_plancher_bas": {
+        "insuffisante": 0.0,
+        "moyenne": 1.0,
+        "bonne": 2.0,
+        "très bonne": 3.0,
+    },
+    "Qualité_isolation_menuiseries": {
+        "insuffisante": 0.0,
+        "moyenne": 1.0,
+        "bonne": 2.0,
+        "très bonne": 3.0,
+    },
+}
+
+
+# Fonction d'encodage des données d'entrée
+def encode_input_data(input_data):
+    encoded_data = {}
+    for column, value in input_data.items():
+        if column in encoding_maps:
+            encoded_data[column] = float(encoding_maps[column].get(value, None))
+        else:
+            encoded_data[column] = value
+    return encoded_data
+
+
 def predict(type_prediction, model, **kwargs):
     """
     Fonction de prédiction unique pour l'étiquette DPE ou la consommation énergétique.
@@ -206,53 +365,74 @@ def predict(type_prediction, model, **kwargs):
     kwargs : caractéristiques du logement nécessaires pour la prédiction
     """
     if type_prediction == "Consommation Énergétique":
-        # Mappage pour les valeurs textuelles
-        chauffage_map = {"Central": 0, "Individuel": 1, "Collectif": 2}
-        type_chauffage = chauffage_map.get(kwargs.get("type_chauffage"), 0)
+        # Encodage des données d'entrée
+        encoded_data = encode_input_data(kwargs)
+
         # Extraire les variables nécessaires pour la prédiction de la consommation
+        columns = [
+            "Type_bâtiment",
+            "Qualité_isolation_enveloppe",
+            "Etiquette_GES",
+            "Surface_habitable_logement",
+            "Etiquette_DPE",
+            "Type_installation_chauffage",
+            "Ubat_W/m²_K",
+            "Qualité_isolation_murs",
+            "Type_énergie_n°1",
+            "Qualité_isolation_plancher_bas",
+            "Méthode_application_DPE",
+            "Qualité_isolation_menuiseries",
+        ]
+
         X = pd.DataFrame(
             [
                 [
-                    kwargs.get("surface_habitable_logement"),
-                    kwargs.get("ubat_w_m2_k"),
-                    kwargs.get("etiquette_dpe"),
-                    type_chauffage,
+                    encoded_data.get("Type_bâtiment"),
+                    encoded_data.get("Qualité_isolation_enveloppe"),
+                    encoded_data.get("Etiquette_GES"),
+                    encoded_data.get("Surface_habitable_logement"),
+                    encoded_data.get("Etiquette_DPE"),
+                    encoded_data.get("Type_installation_chauffage"),
+                    encoded_data.get("Ubat_W/m²_K"),
+                    encoded_data.get("Qualité_isolation_murs"),
+                    encoded_data.get("Type_énergie_n°1"),
+                    encoded_data.get("Qualité_isolation_plancher_bas"),
+                    encoded_data.get("Méthode_application_DPE"),
+                    encoded_data.get("Qualité_isolation_menuiseries"),
                 ]
             ],
-            columns=[
-                "Surface_habitable_logement",
-                "Ubat_W/m²_K",
-                "Etiquette_DPE",
-                "Type_énergie_principale_chauffage",
-            ],
+            columns=columns,
         )
+
         # Prédire la consommation énergétique
         prediction = model.predict(X)[0]
         return prediction
     elif type_prediction == "Étiquette DPE":
-        # Mappage pour les valeurs textuelles
-        etiquette_ges_map = {"A": 0, "B": 1, "C": 2, "D": 3, "E": 4, "F": 5, "G": 6}
-        etiquette_ges = etiquette_ges_map.get(kwargs.get("etiquette_ges"), 0)
+        # Encodage des données d'entrée
+        encoded_data = encode_input_data(kwargs)
+
         # Extraire les variables nécessaires pour la prédiction de l'étiquette DPE
+        columns = [
+            "conso_chauffage",
+            "conso_5_usages_finale",
+            "emission_ges",
+            "etiquette_GES",
+            "cout_eclairage",
+        ]
+
         X = pd.DataFrame(
             [
                 [
-                    kwargs.get("conso_chauffage"),
-                    kwargs.get("conso_5_usages_finale"),
-                    kwargs.get("emission_ges"),
-                    etiquette_ges,
-                    kwargs.get("cout_eclairage"),
+                    encoded_data.get("conso_chauffage"),
+                    encoded_data.get("conso_5_usages_finale"),
+                    encoded_data.get("emission_ges"),
+                    encoded_data.get("etiquette_GES"),
+                    encoded_data.get("cout_eclairage"),
                 ]
             ],
-            columns=[
-                "Conso_chauffage_é_primaire",
-                "Conso_5_usages_é_finale",
-                "Emission_GES_5_usages_par_m²",
-                "Etiquette_GES",
-                "Coût_éclairage",
-            ],
+            columns=columns,
         )
+
         # Prédire l'étiquette DPE
         prediction = model.predict(X)[0]
-
         return prediction

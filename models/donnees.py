@@ -23,28 +23,32 @@ def donnees_page():
     )
 
     # Charger les données
-    data = pd.read_csv("../data/preprocessed_data.csv")
+    data = pd.read_csv("../data/merged_69_cleaned.csv")
 
     # Filtres
     st.sidebar.subheader("Filtres")
-    dpe_filter = st.sidebar.multiselect(
-        "Sélectionner les étiquettes DPE:",
-        data["Etiquette_DPE"].unique(),
-        default=[data["Etiquette_DPE"].unique()[0]],  # Sélection par défaut
+
+    # Choisir une variable à filtrer avec "Etiquette_DPE" comme valeur par défaut
+    filter_variable = st.sidebar.selectbox(
+        "Choisissez une variable pour filtrer les données:",
+        data.columns,
+        index=list(data.columns).index("Etiquette_DPE"),
     )
-    postal_code_filter = st.sidebar.multiselect(
-        "Sélectionner les codes postaux:",
-        data["Code_postal_(BAN)"].unique(),
-        default=[data["Code_postal_(BAN)"].unique()[0]],  # Sélection par défaut
-    )
+
+    # Créer dynamiquement des filtres basés sur les occurrences des valeurs de la variable choisie
+    if filter_variable:
+        unique_values = data[filter_variable].unique()
+        selected_values = st.sidebar.multiselect(
+            f"Choisissez les valeurs de {filter_variable}:",
+            unique_values,
+            default=[unique_values[0]],
+        )
 
     # Appliquer les filtres
     filtered_data = data
-    if dpe_filter:
-        filtered_data = filtered_data[filtered_data["Etiquette_DPE"].isin(dpe_filter)]
-    if postal_code_filter:
+    if filter_variable and selected_values:
         filtered_data = filtered_data[
-            filtered_data["Code_postal_(BAN)"].isin(postal_code_filter)
+            filtered_data[filter_variable].isin(selected_values)
         ]
 
     # Afficher un tableau filtré
@@ -62,8 +66,8 @@ def donnees_page():
     # Affichage du graphique selon le choix de l'utilisateur
     if option == "Camembert":
         fig = create_pie_chart(
-            data["Etiquette_DPE"].value_counts().index,
-            data["Etiquette_DPE"].value_counts(),
+            filtered_data[filter_variable].value_counts().index,
+            filtered_data[filter_variable].value_counts(),
         )
         st.pyplot(fig)
         if st.button("Télécharger le Camembert en PNG"):
@@ -71,26 +75,26 @@ def donnees_page():
 
     elif option == "Barres":
         fig = create_bar_chart(
-            data["Etiquette_DPE"].value_counts().index,
-            data["Etiquette_DPE"].value_counts(),
+            filtered_data[filter_variable].value_counts().index,
+            filtered_data[filter_variable].value_counts(),
         )
         st.pyplot(fig)
-        if st.button("Télécharger le Barres en PNG"):
+        if st.button("Télécharger les Barres en PNG"):
             save_fig_as_png(fig, "barres")
 
     elif option == "Lignes":
         fig = create_line_chart(
-            data["Etiquette_DPE"].value_counts().index,
-            data["Etiquette_DPE"].value_counts(),
+            filtered_data[filter_variable].value_counts().index,
+            filtered_data[filter_variable].value_counts(),
         )
         st.pyplot(fig)
-        if st.button("Télécharger le Lignes en PNG"):
+        if st.button("Télécharger les Lignes en PNG"):
             save_fig_as_png(fig, "lignes")
 
     elif option == "Histogramme":
         fig = create_histogram(
-            data["Etiquette_DPE"].value_counts(),
-            data["Etiquette_DPE"].value_counts().index,
+            filtered_data[filter_variable].value_counts(),
+            filtered_data[filter_variable].value_counts().index,
         )
         st.pyplot(fig)
         if st.button("Télécharger l'Histogramme en PNG"):
@@ -98,15 +102,15 @@ def donnees_page():
 
 
 # Données géographiques
-def visualisation_geograhique():
+def visualisation_geographique():
     st.sidebar.subheader("Carte géographique")
-    show_map = st.sidebar.checkbox("Afficher la carte", value=True)
 
-    if show_map:
+    # Charger les données
+    data = pd.read_csv("../data/merged_69_cleaned.csv")
+
+    # Vérifier que le fichier contient des colonnes latitude et longitude
+    if "lat" in data.columns and "lon" in data.columns:
         st.subheader("Carte géographique des données")
-        # Exemple de données géographiques
-        map_data = pd.DataFrame(
-            np.random.randn(1000, 2) / [50, 50] + [48.8566, 2.3522],
-            columns=["lat", "lon"],
-        )
-        st.map(map_data)
+        st.map(data[["lat", "lon"]])
+    else:
+        st.sidebar.error("Le fichier CSV doit contenir des colonnes 'lat' et 'lon'.")
