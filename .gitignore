@@ -1,2 +1,7 @@
 
 data/preprocessed_data.csv
+<<<<<<< HEAD
+*.pyc
+data/merged_69.csv
+=======
+>>>>>>> parent of 07c0dd8 (Incorporation de la partie API)
