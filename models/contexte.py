@@ -149,7 +149,7 @@ def contexte_page():
     def rafraichir_donnees(url, oldest_date="2024-09-01"):
         all_results = []
         nb_ligne = 0
-        df_rhone = pd.read_csv("data/unique_postal_codes.csv", sep=";")
+        df_rhone = pd.read_csv("../data/adresses-69.csv", sep=";")
         liste_code_postal_rhone = sorted(df_rhone["code_postal"].unique().tolist())
 
         for code_postal in liste_code_postal_rhone:
@@ -245,7 +245,7 @@ def contexte_page():
 
             # Appel API pour logements neufs
             
-            df_neufs = rafraichir_donnees(base_url_neuf)
+            df_neufs = rafraichir_donnees(base_url_neuf, oldest_date)
             st.write("Extrait de données récupérées rafraichi pour les logements neufs :")
             st.dataframe(df_neufs[["Date_réception_DPE", "Etiquette_DPE", "Code_postal_(BAN)", "Etiquette_GES", "Conso_5_usages/m²_é_finale", "Surface_habitable_logement"]].sample(5))
 
