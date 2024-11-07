@@ -146,9 +146,10 @@ def contexte_page():
     #  de logements à partir du 2 septembre 2024.
     #  @param url L'URL de l'API ADEME pour les logements (existants ou neufs).
     #  @return Un DataFrame contenant les données mises à jour.
-    def rafraichir_donnees(url):
+    def rafraichir_donnees(url, oldest_date="2024-09-01"):
         all_results = []
         nb_ligne = 0
+        df_rhone = pd.read_csv("data/unique_postal_codes.csv", sep=";")
         liste_code_postal_rhone = sorted(df_rhone["code_postal"].unique().tolist())
 
         for code_postal in liste_code_postal_rhone:
@@ -157,7 +158,7 @@ def contexte_page():
                 "size": 10_000,
                 "q": code_postal,
                 "q_fields": "Code_postal_(BAN)",
-                "qs": "Date_réception_DPE:[2024-09-02 TO *]"
+                "qs": f"Date_réception_DPE:[{oldest_date} TO *]"
             }
 
             response = requests.get(url, params=params)
@@ -185,8 +186,9 @@ def contexte_page():
             else:
                 st.write(f"Erreur lors de la requête pour le code postal {code_postal}, code : {response.status_code}")
 
+        st.write(f"Les données après le {oldest_date} ont été récupérées avec succès.")
         df_complet = pd.DataFrame(all_results)
-        # Sauvegarde des données dans un fichier CSV, on va plutôt créer un bouton pour télécharger les données
+        # On ne va pas sauvegarder par défaut mais plutôt laisser l'utilisateur la possibiltié de le faire
         # if url == base_url_existant:
         #     df_complet.to_csv("data/existant_69_refresh.csv", index=False)
         # elif url == base_url_neuf:
@@ -221,28 +223,27 @@ def contexte_page():
 
             st.success("L'appel API et la fusion des données ont été effectués avec succès.")
 
-        st.write("Les fichiers CSV suivants ont été créés :")
-        st.write("- `existant_69.csv` pour les logements existants")
-        st.write("- `neufs_69.csv` pour les logements neufs")
+        st.write("Le fichiers CSV suivant a été rafraichi :")
         st.write("- `merged_69.csv` pour les données fusionnées")
 
 
-    st.write("Les données à disposition ont pour étiquette DPE une date antérieur au 1er Septembre, lancer un nouvel appel API pour rafraîchir les données (après le 1er Septembre).")
+    st.write("Les données à disposition ont pour étiquette DPE ne sont pas forcément à jour, lancer un nouvel appel API pour rafraîchir les données (après le 1er Septembre).")
     # Bouton pour rafraichir les données
-    if st.button("Rafraichir les données (Après le 1er septembre 2024)"):
-        
+    if st.button("Rafraichir les données :"):
+        st.write("Rafraichissement des données en cours...")
         df_merged = pd.read_csv("../data/merged_69.csv", sep=";")
+        # On récupère la date la plus ancienne de la date réception DPE pour lancer l'appel API
+        oldest_date = df_merged['Date_réception_DPE'].max()
+
         with st.spinner("Appel de l'API en cours..."):
 
-            st.write("Cliquez sur le bouton ci-dessus pour lancer un nouvel appel API et extraire les données pour les logements existants et neufs dans le département du Rhône.")
-            # On vérifie si le fichier existe déjà
-            
-            df_existants = rafraichir_donnees(base_url_existant)
+            # Appel API pour logements existants
+
+            df_existants = rafraichir_donnees(base_url_existant, oldest_date)
             st.write("Extrait de données récupérées rafraichi pour les logements existants :")
             st.dataframe(df_existants[["Date_réception_DPE", "Etiquette_DPE", "Code_postal_(BAN)", "Etiquette_GES", "Conso_5_usages/m²_é_finale", "Surface_habitable_logement"]].sample(5))
 
             # Appel API pour logements neufs
-            # On vérifie si le fichier existe déjà
             
             df_neufs = rafraichir_donnees(base_url_neuf)
             st.write("Extrait de données récupérées rafraichi pour les logements neufs :")
@@ -251,19 +252,18 @@ def contexte_page():
             # Fusion des deux DataFrames
             common_columns = list(set(df_existants.columns).intersection(set(df_neufs.columns)))
             df_merged_refresh = pd.concat([df_existants[common_columns], df_neufs[common_columns]], ignore_index=True)
-            # df_merged.to_csv("data/merged_69_refresh.csv", index=False, sep=';', encoding='utf-8-sig') # Utiliser plutôt un bouton pour télécharger les données
-            st.write("Fusion des données des logements avant le 1er septembre et après le 1er septembre terminée. Aperçu des données fusionnées :")
+            df_merged.to_csv("../data/merged_69_refresh.csv", index=False, sep=';', encoding='utf-8-sig') # Utiliser plutôt un bouton pour télécharger les données
+            st.write(f"Fusion des nouvelles données avec les données antérieurs au {oldest_date}. Aperçu des données fusionnées :")
             st.dataframe(df_merged_refresh[["Date_réception_DPE", "Etiquette_DPE", "Code_postal_(BAN)", "Etiquette_GES", "Conso_5_usages/m²_é_finale", "Surface_habitable_logement"]].sample(5))
             st.success("Les données ont été mises à jour et combinées avec succès.")
 
-            st.write("Les fichiers CSV suivants ont été créés :")
-            st.write("- `existant_69_refresh.csv` pour les logements existants après le 1er septembre")
-            st.write("- `neufs_69_refresh.csv` pour les logements neufs après le 1er septembre")
-
+            st.write("Le fichiers CSV suivants a été créé :")
+            st.write("- `merged_69_refresh.csv` pour les données fusionnées")
             st.success("L'appel API et la fusion des données ont été effectués avec succès.")
+            # Option de téléchargement pour les CSV créés
+            st.download_button("Télécharger les données fusionnées", data=open("../data/merged_69_refresh.csv", "rb"), file_name="merged_69_refresh.csv")
 
-        # Option de téléchargement pour les CSV créés
-        # st.download_button("Télécharger les données fusionnées", data=open("data/merged_69_combined.csv", "rb"), file_name="merged_69_combined.csv")
+        
 
 #################################FIN APPEL API QUENTIN#################################
 ###################################################################################
