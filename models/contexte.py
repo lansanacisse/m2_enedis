@@ -251,7 +251,7 @@ def contexte_page():
             # Fusion des deux DataFrames
             common_columns = list(set(df_existants.columns).intersection(set(df_neufs.columns)))
             df_merged_refresh = pd.concat([df_existants[common_columns], df_neufs[common_columns]], ignore_index=True)
-            df_merged.to_csv("data/merged_69_refresh.csv", index=False, sep=';', encoding='utf-8-sig')
+            # df_merged.to_csv("data/merged_69_refresh.csv", index=False, sep=';', encoding='utf-8-sig') # Utiliser plutôt un bouton pour télécharger les données
             st.write("Fusion des données des logements avant le 1er septembre et après le 1er septembre terminée. Aperçu des données fusionnées :")
             st.dataframe(df_merged_refresh[["Date_réception_DPE", "Etiquette_DPE", "Code_postal_(BAN)", "Etiquette_GES", "Conso_5_usages/m²_é_finale", "Surface_habitable_logement"]].sample(5))
             st.success("Les données ont été mises à jour et combinées avec succès.")

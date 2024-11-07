@@ -1,10 +1,14 @@
 import streamlit as st
+import pandas as pd
 from accueil import accueil_page
 from analyse import analyse_page
 from prediction import prediction_page
 from contexte import contexte_page
-from analyse import visualisation_graphique, afficher_carte
+from analyse import visualisation, afficher_carte
 
+
+# import data
+data = pd.read_csv("../data/sample.csv", sep=";")
 # Configuration de la page
 st.set_page_config(page_title="GreeTech App", page_icon="⚡", layout="wide")
 
@@ -34,8 +38,8 @@ elif page_key == "contexte":
 
 elif page_key == "analyse":
     analyse_page()
-    visualisation_graphique()
-    afficher_carte()
+    visualisation(data)
+    afficher_carte(data)
 elif page_key == "prediction":
     prediction_page()
     

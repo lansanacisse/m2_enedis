@@ -14,76 +14,57 @@ from sklearn.model_selection import train_test_split
 import joblib
 import matplotlib.pyplot as plt
 import seaborn as sns
+import plotly.express as px
 
-def create_styled_pie_chart(labels, sizes):
-    # Choisir des couleurs attrayantes
-    colors = sns.color_palette("Set3", len(labels))
-    
-    fig, ax = plt.subplots(figsize=(8, 8))
-    wedges, texts, autotexts = ax.pie(
-        sizes, labels=labels, autopct='%1.1f%%', startangle=140, colors=colors, wedgeprops={'edgecolor': 'black'}
+def create_plotly_pie_chart(labels, sizes):
+    fig = px.pie(
+        names=labels, 
+        values=sizes, 
+        title="Répartition des valeurs", 
+        color_discrete_sequence=px.colors.sequential.Viridis
     )
-    ax.set_title("Répartition des valeurs", fontsize=14, weight='bold')
-    
-    # Améliorer la lisibilité
-    for text in autotexts + texts:
-        text.set_fontsize(12)
-        text.set_fontweight('bold')
-
-    plt.tight_layout()
+    fig.update_traces(textposition='inside', textinfo='percent+label')
+    fig.update_layout(title_font_size=20)
     return fig
 
-def create_styled_bar_chart(labels, values):
+def create_seaborn_bar_chart(labels, values):
     fig, ax = plt.subplots(figsize=(10, 6))
-    
-    # Utiliser seaborn pour des barres plus esthétiques
     sns.barplot(x=labels, y=values, palette="viridis", ax=ax)
-    
     ax.set_title("Répartition des données par catégorie", fontsize=14, weight='bold')
     ax.set_xlabel("Catégories", fontsize=12)
     ax.set_ylabel("Valeurs", fontsize=12)
-    
     plt.xticks(rotation=45)
     plt.tight_layout()
     return fig
 
-def create_styled_histogram(values):
-    fig, ax = plt.subplots(figsize=(10, 6))
-
-    # Tracer l'histogramme avec seaborn
-    sns.histplot(values, kde=True, color='skyblue', bins=20, ax=ax)
-    
-    ax.set_title("Distribution des valeurs", fontsize=14, weight='bold')
-    ax.set_xlabel("Valeurs", fontsize=12)
-    ax.set_ylabel("Fréquence", fontsize=12)
-    
-    plt.tight_layout()
+def create_plotly_histogram(values):
+    fig = px.histogram(
+        values, 
+        nbins=20, 
+        title="Distribution des valeurs", 
+        color_discrete_sequence=['skyblue']
+    )
+    fig.update_layout(
+        xaxis_title="Valeurs", 
+        yaxis_title="Fréquence", 
+        title_font_size=20
+    )
     return fig
 
-def create_styled_line_chart(x, y):
-    """
-    Crée un graphique en ligne stylisé avec seaborn et matplotlib.
-
-    Parameters:
-    - x : Liste ou array des valeurs pour l'axe X.
-    - y : Liste ou array des valeurs pour l'axe Y.
-
-    Returns:
-    - fig : Figure matplotlib du graphique en ligne.
-    """
-    fig, ax = plt.subplots(figsize=(10, 6))
-
-    # Tracer le graphique en ligne avec seaborn
-    sns.lineplot(x=x, y=y, marker="o", color="b", ax=ax)
-    
-    ax.set_title("Évolution des valeurs", fontsize=14, weight='bold')
-    ax.set_xlabel("Catégories", fontsize=12)
-    ax.set_ylabel("Valeurs", fontsize=12)
-    
-    # Affichage plus esthétique
-    plt.tight_layout()
+def create_plotly_line_chart(x, y):
+    fig = px.line(
+        x=x, 
+        y=y, 
+        title="Évolution des valeurs", 
+        markers=True, 
+        line_shape='spline'
+    )
+    fig.update_layout(
+        xaxis_title="Catégories", 
+        yaxis_title="Valeurs", 
+        title_font_size=20
+    )
     return fig
-
 
 # Créer un graphique en pgn
 def save_fig_as_png(fig, filename):
@@ -396,3 +377,76 @@ def predict(type_prediction, model, **kwargs):
         # Prédire l'étiquette DPE
         prediction = model.predict(X)[0]
         return prediction
+
+
+
+def calculate_kpis(data):
+    kpis = {}
+
+    # KPI 1: Consommation moyenne des logements
+    moyenne_conso = data['Conso_5_usages_é_finale'].mean()
+    kpis['conso_energetique_moyenne'] = moyenne_conso
+
+    # KPI 2: Pourcentage de logements au-dessus de la consommation moyenne
+    kpis['pct_logements_au_dessus_moyenne'] = (data['Conso_5_usages_é_finale'] > moyenne_conso).mean() * 100
+    
+    # KPI 3: Taux de logements « passoires énergétiques » (étiquette DPE F ou G)
+    passoires_energetiques = data['Etiquette_DPE'].isin(['F', 'G']).sum()
+    kpis['taux_passoires_energetiques'] = (passoires_energetiques / len(data)) * 100
+
+    # KPI 4: Etiquette DPE la plus fréquente
+    kpis['etiquette_dpe_frequente'] = data['Etiquette_DPE'].mode()[0]
+
+    return kpis
+
+
+
+import streamlit as st
+import pandas as pd
+
+def afficher_kpis(kpis):
+    st.title("Indicateurs Clés de Performance (KPI)")
+    st.markdown("---")
+
+    # Noms lisibles pour les KPI avec textes réduits
+    kpis_readable = {
+        'conso_energetique_moyenne': 'Consommation Moyenne',
+        'pct_logements_au_dessus_moyenne': ' Logements > Moy',
+        'taux_passoires_energetiques': 'Taux Passoires',
+        'etiquette_dpe_frequente': 'DPE Fréquente'
+    }
+
+    # Couleurs et icônes pour les KPI
+    colors = {
+        'conso_energetique_moyenne': '#AED6F1',  # Bleu
+        'pct_logements_au_dessus_moyenne': '#ABEBC6 ',  # Vert
+        'taux_passoires_energetiques': '#f0b27a',  # Orange
+        'etiquette_dpe_frequente': '#d5d8dc',  # Gris
+    }
+    
+    icons = {
+        'conso_energetique_moyenne': '🔋',  # Batterie
+        'pct_logements_au_dessus_moyenne': '🏠',  # Maison
+        'taux_passoires_energetiques': '⚡',  # Éclair
+        'etiquette_dpe_frequente': '🏷️',  # Étiquette
+    }
+
+    # Disposer les KPI en colonnes
+    col1, col2, col3, col4 = st.columns(4)
+    cols = [col1, col2, col3, col4]
+    kpi_keys = list(kpis.keys())
+
+    for i in range(4):
+        with cols[i]:
+            value = kpis[kpi_keys[i]]
+            # Limiter l'affichage des chiffres à 10 chiffres significatifs
+            if isinstance(value, (int, float)):
+                value = f"{value:.10g}"
+            st.markdown(
+                f'<div style="background-color: {colors[kpi_keys[i]]}; padding: 20px; border-radius: 5px; text-align: center; height: 150px; display: flex; flex-direction: column; justify-content: center;">'
+                f'<h3>{icons[kpi_keys[i]]} {kpis_readable[kpi_keys[i]]}</h3>'
+                f'<h2>{value}</h2>'
+                f'</div>', unsafe_allow_html=True
+            )
+
+    st.markdown("---")
