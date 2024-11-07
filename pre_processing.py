@@ -62,11 +62,20 @@ def encodage_variables_categorielles(df):
 # @param df pandas.DataFrame contenant des valeurs manquantes
 # @return pandas.DataFrame avec valeurs manquantes gérées
 def gestion_valeurs_manquantes(df):
-  print("Gestion des valeurs manquantes...")
-  # Remplissage des valeurs manquantes avec la médiane
-  imputer = SimpleImputer(strategy='median')
-  df = pd.DataFrame(imputer.fit_transform(df), columns=df.columns)
-  return df
+    print("Gestion des valeurs manquantes...")
+    # Remplissage des valeurs manquantes avec la médiane pour les colonnes numériques
+    numeric_columns = df.select_dtypes(include=['float64', 'int64']).columns
+    if len(numeric_columns) > 0:  # Vérifie qu'il y a des colonnes numériques
+      numeric_imputer = SimpleImputer(strategy='median')
+      df[numeric_columns] = numeric_imputer.fit_transform(df[numeric_columns])
+
+    # Remplissage des valeurs manquantes avec la valeur la plus fréquente pour les colonnes catégorielles
+    categorical_columns = df.select_dtypes(include=['object']).columns
+    if len(categorical_columns) > 0:  # Vérifie qu'il y a des colonnes catégorielles
+      categorical_imputer = SimpleImputer(strategy='most_frequent')
+      df[categorical_columns] = categorical_imputer.fit_transform(df[categorical_columns])
+
+    return df
 
 
 # Gestion outliers
@@ -121,7 +130,7 @@ def gestion_standardisation(df):
 # 
 # @remark
 # Les données prétraitées sont exportées dans un fichier CSV "preprocessed_data.csv"
-def preprocess_data(df):
+def preprocess_data(df, sauvegarde=False):
   print("Prétraitement des données...")
   # Remove duplicates
   df = df.drop_duplicates()
@@ -133,15 +142,16 @@ def preprocess_data(df):
   df = df.drop(percent_nan[percent_nan > 30].index, axis=1)
   # Encoding categorical variables
   df = encodage_variables_categorielles(df)
-  # Gestion des valeurs manquantes
-  df = gestion_valeurs_manquantes(df)
   # Gestion des outliers
   df = gestion_outliers(df)
+  # Gestion des valeurs manquantes
+  df = gestion_valeurs_manquantes(df)
   # Normalisation des données
   # df = gestion_standardisation(df) # La normalisation n'est pas nécessaire pour les arbres de décision et fait crash le code
   # Export data
-  print("Export des données...")
-  df.to_csv('data/preprocessed_data.csv', index=False)
-  print("Export réussi")
+  if sauvegarde:
+    print("Export des données...")
+    df.to_csv('data/preprocessed_data.csv', index=False)
+    print("Export réussi sous le nom de 'preprocessed_data.csv'")
   return df
 
