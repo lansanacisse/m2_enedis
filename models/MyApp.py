@@ -1,25 +1,12 @@
 import streamlit as st
-import subprocess
-import time
 from accueil import accueil_page
 from analyse import analyse_page
 from contexte import contexte_page
 from prediction import prediction_page
-from prediction_API import prediction_api_page  # Import de la page de prédiction avec API
+from contexte import contexte_page
 from analyse import visualisation_graphique, afficher_carte
 
-#Logo
-st.logo("../data/logo.png", size="large")
-
-# Fonction pour démarrer l'API FastAPI en arrière-plan
-def start_api():
-    return subprocess.Popen(["python", "-m", "uvicorn", "api:app", "--host", "127.0.0.1", "--port", "8001", "--reload"])
-
-# Démarrer l'API
-api_process = start_api()
-time.sleep(5)  # Pause pour donner le temps à l'API de démarrer
-
-# Configuration de la page Streamlit
+# Configuration de la page
 st.set_page_config(page_title="GreeTech App", page_icon="⚡", layout="wide")
 
 # Barre latérale de navigation
@@ -46,8 +33,8 @@ elif page_key == "contexte":
     contexte_page()
 elif page_key == "analyse":
     analyse_page()
-    visualisation_graphique()
-    afficher_carte()
+    visualisation(data)
+    afficher_carte(data)
 elif page_key == "prediction":
     prediction_page()
 elif page_key == "prediction_api":
