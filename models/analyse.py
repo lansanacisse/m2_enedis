@@ -17,11 +17,11 @@ def analyse_page():
         et les relations entre les différentes variables.
     """
     )
-data = pd.read_csv("../data/merged_69.csv", sep=";")
+data = pd.read_csv("../data/sample_lon_lat.csv", sep=";")
 
 def visualisation_graphique():
     # Charger les données
-    data = pd.read_csv("../data/merged_69.csv", sep=";")
+    data = pd.read_csv("../sample_lon_lat.csv", sep=";")
 
     st.title("Visualisation des Données")
 

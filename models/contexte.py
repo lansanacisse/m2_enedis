@@ -17,7 +17,7 @@ def contexte_page():
     )
 
     # Charger les données
-    data = pd.read_csv("../data/sample.csv", sep=";")
+    data = pd.read_csv("../data/sample_lon_lat.csv", sep=";")
 
     # Filtres
     st.sidebar.subheader("Filtres")
@@ -215,7 +215,7 @@ def contexte_page():
             # Fusion des deux DataFrames
             common_columns = list(set(df_existants.columns).intersection(set(df_neufs.columns)))
             df_merged = pd.concat([df_existants[common_columns], df_neufs[common_columns]], ignore_index=True)
-            df_merged.to_csv("../data/merged_69.csv", index=False, sep=';', encoding='utf-8-sig')
+            df_merged.to_csv("../data/sample_lon_lat.csv", index=False, sep=';', encoding='utf-8-sig')
             st.write("Fusion des données terminée. Aperçu des données fusionnées :")
             st.dataframe(df_merged.head())
 
@@ -224,14 +224,14 @@ def contexte_page():
         st.write("Les fichiers CSV suivants ont été créés :")
         st.write("- `existant_69.csv` pour les logements existants")
         st.write("- `neufs_69.csv` pour les logements neufs")
-        st.write("- `merged_69.csv` pour les données fusionnées")
+        st.write("- `sample_lon_lat.csv` pour les données fusionnées")
 
 
     st.write("Les données à disposition ont pour étiquette DPE une date antérieur au 1er Septembre, lancer un nouvel appel API pour rafraîchir les données (après le 1er Septembre).")
     # Bouton pour rafraichir les données
     if st.button("Rafraichir les données (Après le 1er septembre 2024)"):
         
-        df_merged = pd.read_csv("../data/merged_69.csv", sep=";")
+        df_merged = pd.read_csv("../data/sample_lon_lat.csv", sep=";")
         with st.spinner("Appel de l'API en cours..."):
 
             st.write("Cliquez sur le bouton ci-dessus pour lancer un nouvel appel API et extraire les données pour les logements existants et neufs dans le département du Rhône.")
