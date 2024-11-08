@@ -9,18 +9,19 @@ app = FastAPI()
 # Configurer le logging pour voir les erreurs
 logging.basicConfig(level=logging.INFO)
 
-# Charger les modèles (assurez-vous que les fichiers sont dans un dossier `models`)
+# Charger les modèles (assurez-vous que les fichiers sont dans le même dossier)
 models = {
     "consumption_xgboost": joblib.load("xgboost.pkl"),
-    "consumption_rdforest": joblib.load("rdforest.pkl"),
-    "consumption_linearreg": joblib.load("linearReg.pkl"),
+    #"consumption_rdforest": joblib.load("rdforest.pkl"),
+    #"consumption_linearreg": joblib.load("linearReg.pkl"),
     "label_knn": joblib.load("etiquette_knn_model.pkl"),
-    #"label_rf": joblib.load("models/etiquette_random_forest_model.pkl")
+    #"label_rf": joblib.load("etiquette_random_forest_model.pkl")
 }
 
 # Dictionnaire de mapping pour les étiquettes DPE
 label_mapping = {0: "A", 1: "B", 2: "C", 3: "D", 4: "E", 5: "F", 6: "G"}
 
+# Mapping Etiquette_GES en valeurs numériques
 etiquette_ges_mapping = {
     "A": 0,
     "B": 1,
@@ -46,13 +47,13 @@ class ConsumptionInput(BaseModel):
     Methode_application_DPE: str = Field(..., alias="Méthode_application_DPE")
     Qualite_isolation_menuiseries: str = Field(..., alias="Qualité_isolation_menuiseries")
 
+# Classe pour les données d'étiquette DPE
 class LabelInput(BaseModel):
     Conso_chauffage_e_primaire: float
     Conso_5_usages_e_finale: float
     Emission_GES_5_usages_par_m2: float
-    Etiquette_GES: str  # Changement en str pour accepter des valeurs comme "A", "B", etc.
+    Etiquette_GES: str
     Cout_eclairage: float
-
 
 @app.post("/predict/label")
 async def predict_label(input_data: LabelInput, model_type: str = "knn"):
@@ -60,6 +61,7 @@ async def predict_label(input_data: LabelInput, model_type: str = "knn"):
     if model_key not in models:
         raise HTTPException(status_code=400, detail="Modèle de classification non disponible.")
 
+    # Convertir Etiquette_GES en valeur numérique
     numeric_etiquette_ges = etiquette_ges_mapping.get(input_data.Etiquette_GES)
     if numeric_etiquette_ges is None:
         raise HTTPException(status_code=400, detail="Etiquette_GES invalide.")
@@ -80,7 +82,6 @@ async def predict_label(input_data: LabelInput, model_type: str = "knn"):
         logging.error("Erreur dans /predict/label: %s", e)
         raise HTTPException(status_code=500, detail=str(e))
 
-
 @app.post("/predict/consumption")
 async def predict_consumption(input_data: ConsumptionInput, model_type: str = "xgboost"):
     model_key = f"consumption_{model_type.lower()}"
@@ -90,7 +91,7 @@ async def predict_consumption(input_data: ConsumptionInput, model_type: str = "x
     try:
         data = pd.DataFrame([input_data.dict(by_alias=True)])
         prediction = models[model_key].predict(data)[0]
-        prediction = float(prediction)  # Assure compatibilité JSON
+        prediction = float(prediction)
         return {"consumption_prediction": prediction}
     except Exception as e:
         logging.error("Erreur dans /predict/consumption: %s", e)

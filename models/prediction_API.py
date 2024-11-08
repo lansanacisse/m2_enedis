@@ -91,8 +91,7 @@ def prediction_api_page():
 
             model_type_map = {
                 "XGBoost": "xgboost",
-                "Random Forest": "rdforest",
-                "Régression Linéaire": "linearreg" 
+                "Random Forest": "rdforest", 
             }
             response = requests.post(
                 "http://127.0.0.1:8001/predict/consumption",
