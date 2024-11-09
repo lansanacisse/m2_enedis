@@ -12,7 +12,7 @@ def prediction_api_page():
     if prediction_type == "Classification (DPE)":
         model_option = st.sidebar.selectbox(
             "Sélectionnez le modèle pour l'étiquette DPE",
-            ["KNN", "Random Forest"]
+            ["KNN", "Arbre de décision"]
         )
 
         # Champs de saisie pour la prédiction de l'étiquette DPE
@@ -25,6 +25,7 @@ def prediction_api_page():
 
         # Bouton pour effectuer la prédiction
         if st.button("Prédire l'étiquette DPE"):
+            model_type = "knn" if model_option == "KNN" else "arbre"  #
             response = requests.post(
                 "http://127.0.0.1:8001/predict/label",
                 json={
@@ -34,7 +35,7 @@ def prediction_api_page():
                     "Etiquette_GES": etiquette_ges,
                     "Cout_eclairage": cout_eclairage
                 },
-                params={"model_type": model_option.lower()}
+                params={"model_type": model_type}
             )
             if response.status_code == 200:
                 label_prediction = response.json().get("label_prediction")
@@ -46,7 +47,7 @@ def prediction_api_page():
     elif prediction_type == "Régression (Consommation Énergétique)":
         model_option = st.sidebar.selectbox(
             "Sélectionnez le modèle pour la consommation énergétique",
-            ["XGBoost", "Random Forest", "Régression Linéaire"]
+            ["XGBoost", "Random Forest"]
         )
 
         # Champs de saisie pour la prédiction de la consommation énergétique
@@ -88,32 +89,34 @@ def prediction_api_page():
 
         # Bouton pour effectuer la prédiction de consommation énergétique
         if st.button("Prédire la consommation énergétique"):
-
-            model_type_map = {
-                "XGBoost": "xgboost",
-                "Random Forest": "rdforest", 
-            }
-            response = requests.post(
-                "http://127.0.0.1:8001/predict/consumption",
-                json={
-                    "Type_bâtiment": type_batiment,
-                    "Qualité_isolation_enveloppe": qualite_isolation_enveloppe,
-                    "Etiquette_GES": etiquette_ges,
-                    "Surface_habitable_logement": surface_habitable,
-                    "Etiquette_DPE": etiquette_dpe,
-                    "Type_installation_chauffage": type_installation_chauffage,
-                    "Ubat_W/m²_K": ubat_w_m2_k,
-                    "Qualité_isolation_murs": qualite_isolation_murs,
-                    "Type_énergie_n°1": type_energie_n1,
-                    "Qualité_isolation_plancher_bas": qualite_isolation_plancher_bas,
-                    "Méthode_application_DPE": methode_application_dpe,
-                    "Qualité_isolation_menuiseries": qualite_isolation_menuiseries
-                },
-                params={"model_type": model_type_map[model_option]}
-            )
-            if response.status_code == 200:
-                consumption_prediction = response.json().get("consumption_prediction")
-                st.write(f"La consommation énergétique prédite est : {consumption_prediction} kWh/m²/an")
+            if surface_habitable == 0:
+                st.warning("Veuillez rentrer toutes les caractéristiques.")
             else:
-                st.error("Erreur lors de la prédiction de la consommation énergétique.")
-                st.write("Détails de l'erreur :", response.text)
+                model_type_map = {
+                    "XGBoost": "xgboost",
+                    "Random Forest": "rdforest", 
+                }
+                response = requests.post(
+                    "http://127.0.0.1:8001/predict/consumption",
+                    json={
+                        "Type_bâtiment": type_batiment,
+                        "Qualité_isolation_enveloppe": qualite_isolation_enveloppe,
+                        "Etiquette_GES": etiquette_ges,
+                        "Surface_habitable_logement": surface_habitable,
+                        "Etiquette_DPE": etiquette_dpe,
+                        "Type_installation_chauffage": type_installation_chauffage,
+                        "Ubat_W/m²_K": ubat_w_m2_k,
+                        "Qualité_isolation_murs": qualite_isolation_murs,
+                        "Type_énergie_n°1": type_energie_n1,
+                        "Qualité_isolation_plancher_bas": qualite_isolation_plancher_bas,
+                        "Méthode_application_DPE": methode_application_dpe,
+                        "Qualité_isolation_menuiseries": qualite_isolation_menuiseries
+                    },
+                    params={"model_type": model_type_map[model_option]}
+                )
+                if response.status_code == 200:
+                    consumption_prediction = response.json().get("consumption_prediction")
+                    st.write(f"La consommation énergétique prédite est : {consumption_prediction:.2f} kWh/m²/an")
+                else:
+                    st.error("Erreur lors de la prédiction de la consommation énergétique.")
+                    st.write("Détails de l'erreur :", response.text)
