@@ -304,7 +304,9 @@ def prediction_page():
         emission_GES = st.number_input(
             "Émission GES pour 5 usages par m²", key="emission_GES"
         )
-        etiquette_GES = st.number_input("Étiquette GES", key="etiquette_GES")
+        etiquette_GES = st.selectbox(
+            "Étiquette GES", ["A", "B", "C", "D", "E", "F", "G"], key="etiquette_GES"
+        )
         cout_eclairage = st.number_input("Coût éclairage", key="cout_eclairage")
         if st.button("Prédire l'étiquette DPE", key="predict_button_dpe"):
             # Vérifier si tous les champs sont renseignés
