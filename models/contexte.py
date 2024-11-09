@@ -13,11 +13,13 @@ def contexte_page():
         Les données utilisées dans cette application sont des informations sur la performance énergétique 
         des logements en France. Les données sont collectées par le Ministère de la Transition Écologique et 
         Solidaire et sont disponibles sur le site data.gouv.fr.
+
+        Il faut aussi noter, qu'on a utilisé des données venant de l'Open Data de "infoclimat.fr" pour ajouter le champ "temperature" dans les données.
     """
     )
 
     # Charger les données
-    data = pd.read_csv("../data/sample_lon_lat.csv", sep=";")
+    data = pd.read_csv("../data/sample_lon_lat.csv", sep=";") # Remplacer ce champ par df_total_lon_lat_temp.csv qui contiennent toutes les données
 
     # Filtres
     st.sidebar.subheader("Filtres")
