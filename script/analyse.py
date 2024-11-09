@@ -17,7 +17,7 @@ from utils import (
 )
 
 # Charger les données une fois pour les partager entre les fonctions
-data = pd.read_csv("../data/sample.csv", sep=";")
+data = pd.read_csv("../data/dataset_M2_enedis.csv", sep=";")
 
 
 def analyse_page():

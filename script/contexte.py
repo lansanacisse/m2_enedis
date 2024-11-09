@@ -19,8 +19,7 @@ def contexte_page():
     )
 
     # Charger les données
-    data = pd.read_csv("../data/sample_lon_lat.csv", sep=";") # Remplacer ce champ par df_total_lon_lat_temp.csv qui contiennent toutes les données
-
+    data = pd.read_csv("../data/dataset_M2_enedis.csv", sep=";") # Remplacer ce champ par dataset_M2_enedis.csv qui contiennent toutes les données
     # Filtres
     st.sidebar.subheader("Filtres")
 
