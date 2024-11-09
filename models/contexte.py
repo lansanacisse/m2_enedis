@@ -96,6 +96,7 @@ def contexte_page():
     def call_API(url):
         all_results = []
         nb_ligne = 0
+        df_rhone = pd.read_csv("data/adresses-69.csv", sep=";")
         liste_code_postal_rhone = sorted(df_rhone["code_postal"].unique().tolist())
 
         for code_postal in liste_code_postal_rhone:
@@ -134,11 +135,12 @@ def contexte_page():
                 st.write(f"Erreur lors de la requête pour le code postal {code_postal}, code : {response.status_code}")
 
         df_complet = pd.DataFrame(all_results)
-        # Sauvegarde des données dans un fichier CSV, on va plutôt créer un bouton pour télécharger les données
+
+        # On ne va pas sauvegarder par défaut mais plutôt laisser l'utilisateur la possibiltié de le faire
         # if url == base_url_existant:
-        #     df_complet.to_csv("existant_69.csv", index=False)
+        #     df_complet.to_csv("data/existant_69_refresh.csv", index=False)
         # elif url == base_url_neuf:
-        #     df_complet.to_csv("neufs_69.csv", index=False)
+        #     df_complet.to_csv("data/neufs_69_refresh.csv", index=False)
 
         return df_complet
 
@@ -149,7 +151,7 @@ def contexte_page():
     def rafraichir_donnees(url, oldest_date="2024-09-01"):
         all_results = []
         nb_ligne = 0
-        df_rhone = pd.read_csv("../data/adresses-69.csv", sep=";")
+        df_rhone = pd.read_csv("data/adresses-69.csv", sep=";")
         liste_code_postal_rhone = sorted(df_rhone["code_postal"].unique().tolist())
 
         for code_postal in liste_code_postal_rhone:
@@ -199,7 +201,6 @@ def contexte_page():
     # Interface Streamlit
     st.title("Application d'Appel API ADEME")
 
-    st.write("Cliquez sur le bouton ci-dessous pour lancer l'appel API et extraire les données pour les logements existants et neufs dans le département du Rhône.")
 
     # Bouton pour lancer l'appel API
     if st.button("Lancer l'appel API"):
@@ -217,50 +218,46 @@ def contexte_page():
             # Fusion des deux DataFrames
             common_columns = list(set(df_existants.columns).intersection(set(df_neufs.columns)))
             df_merged = pd.concat([df_existants[common_columns], df_neufs[common_columns]], ignore_index=True)
-            df_merged.to_csv("../data/sample_lon_lat.csv", index=False, sep=';', encoding='utf-8-sig')
+            df_merged.to_csv("merged_69.csv", index=False, sep=';', encoding='utf-8-sig')
             st.write("Fusion des données terminée. Aperçu des données fusionnées :")
             st.dataframe(df_merged.head())
 
             st.success("L'appel API et la fusion des données ont été effectués avec succès.")
 
-        st.write("Les fichiers CSV suivants ont été créés :")
-        st.write("- `existant_69.csv` pour les logements existants")
-        st.write("- `neufs_69.csv` pour les logements neufs")
-        st.write("- `merged_69.csv` pour les données fusionnées")
 
 
-    st.write("Les données à disposition ont pour étiquette DPE ne sont pas forcément à jour, lancer un nouvel appel API pour rafraîchir les données (après le 1er Septembre).")
+    st.write("Les données à disposition ont pour étiquette DPE ne sont pas forcément à jour, lancer un nouvel appel API pour rafraîchir les données")
     # Bouton pour rafraichir les données
-    if st.button("Rafraichir les données (Après le 1er septembre 2024)"):
-        
-        df_merged = pd.read_csv("../data/merged_69.csv", sep=";")
+    if st.button("Rafraichir les données :"):
+        st.write("Rafraichissement des données en cours...")
+        df_merged = pd.read_csv("data/merged_69.csv", sep=";")
+        oldest_date = df_merged['Date_réception_DPE'].max()
         with st.spinner("Appel de l'API en cours..."):
 
             # Appel API pour logements existants
-
+            
             df_existants = rafraichir_donnees(base_url_existant, oldest_date)
             st.write("Extrait de données récupérées rafraichi pour les logements existants :")
             st.dataframe(df_existants[["Date_réception_DPE", "Etiquette_DPE", "Code_postal_(BAN)", "Etiquette_GES", "Conso_5_usages/m²_é_finale", "Surface_habitable_logement"]].sample(5))
 
             # Appel API pour logements neufs
             
-            df_neufs = rafraichir_donnees(base_url_neuf, oldest_date)
+            df_neufs = rafraichir_donnees(base_url_neuf)
             st.write("Extrait de données récupérées rafraichi pour les logements neufs :")
             st.dataframe(df_neufs[["Date_réception_DPE", "Etiquette_DPE", "Code_postal_(BAN)", "Etiquette_GES", "Conso_5_usages/m²_é_finale", "Surface_habitable_logement"]].sample(5))
 
             # Fusion des deux DataFrames
             common_columns = list(set(df_existants.columns).intersection(set(df_neufs.columns)))
             df_merged_refresh = pd.concat([df_existants[common_columns], df_neufs[common_columns]], ignore_index=True)
-            df_merged.to_csv("../data/merged_69_refresh.csv", index=False, sep=';', encoding='utf-8-sig') # Utiliser plutôt un bouton pour télécharger les données
+            df_merged_refresh.to_csv("data/merged_69_refresh.csv", index=False, sep=';', encoding='utf-8-sig')
             st.write(f"Fusion des nouvelles données avec les données antérieurs au {oldest_date}. Aperçu des données fusionnées :")
             st.dataframe(df_merged_refresh[["Date_réception_DPE", "Etiquette_DPE", "Code_postal_(BAN)", "Etiquette_GES", "Conso_5_usages/m²_é_finale", "Surface_habitable_logement"]].sample(5))
             st.success("Les données ont été mises à jour et combinées avec succès.")
 
-            st.write("Le fichiers CSV suivants a été créé :")
-            st.write("- `merged_69_refresh.csv` pour les données fusionnées")
             st.success("L'appel API et la fusion des données ont été effectués avec succès.")
             # Option de téléchargement pour les CSV créés
-            st.download_button("Télécharger les données fusionnées", data=open("../data/merged_69_refresh.csv", "rb"), file_name="merged_69_refresh.csv")
+            st.download_button("Télécharger les données fusionnées", data=open("data/merged_69_refresh.csv", "rb"), file_name="data/merged_69_refresh.csv")
+        
 
         
 
