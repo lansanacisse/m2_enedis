@@ -1,13 +1,14 @@
-
 # M2 Enedis
-Cette application permet d'analyser et de prédire le Diagnostic de Performance Énergétique (DPE) des logements en France. Elle utilise des modèles d'apprentissage automatique pour estimer l'étiquette DPE et la consommation énergétique en fonction des caractéristiques du logement.
+Cette application permet d’analyser et de prédire le Diagnostic de Performance Énergétique (DPE) et la consommation énergétique des logements situés à Lyon (69). 
+Elle utilise des modèles d’apprentissage automatique pour estimer l’étiquette DPE et la consommation énergétique en fonction des caractéristiques du logement.
 
 ## Fonctionnalités
 
 - **Accueil** : Présentation de l'application et de ses fonctionnalités.
-- **Données** : Affichage et visualisation des données de performance énergétique.
-- **Analyse** : Analyse des données pour identifier les tendances et les anomalies.
-- **Prédiction** : Prédiction du DPE et de la consommation énergétique à l'aide de modèles d'apprentissage automatique.
+- **Contexte** : Permet d'explorer les données du projet et d'obtenir de nouvelles données en faisant appel à l'API.
+- **Analyse** : Permet de suivre les différents KPI et de visualiser les données à l'aide de divers graphiques ainsi qu'une carte de géolocalisation.
+- **Prédiction Locale** : Permet de réaliser des prédictions spécifiques à un logement en fonction de ses caractéristiques locales, en fournissant une estimation personnalisée du Diagnostic de Performance Énergétique (DPE) et de la consommation énergétique.
+- **Prédiction avec API** : Permet de réaliser des prédictions en utilisant l'API pour obtenir des estimations automatisées du Diagnostic de Performance Énergétique (DPE) et de la consommation énergétique à partir des caractéristiques des logements.
 
 ## Prérequis
 
@@ -31,30 +32,29 @@ Cette application permet d'analyser et de prédire le Diagnostic de Performance 
 
 ## Utilisation
 
-1. Lancez l'application Streamlit :
+1. Assurez-vous que les fichiers .pkl suivants sont bien présents pour la prédiction locale :
+
+- **etiquette_knn_model.pkl**
+- **etiquette_arbre_de_decision_model.pkl**
+- **etiquette_random_forest_model.pkl**
+- **consommation_xgboost_model.pkl**
+- **consommation_arbre_de_decision_model.pkl**
+- **consommation_random_forest_model.pkl**
+
+Si ces fichiers sont manquants, pensez à exécuter le notebook Mynotebook.ipynb pour les générer.
+
+
+2. Lancez l'application Streamlit :
 
     ```bash
     streamlit run models/MyApp.py
     ```
 
-2. Ouvrez votre navigateur et accédez à l'URL suivante :
+3. Ouvrez votre navigateur et accédez à l'URL suivante :
 
     ```
     http://localhost:8501
     ```
-
-## Structure du Projet
-
-- `models/accueil.py` : Code pour la page d'accueil.
-- `models/donnees.py` : Code pour la page de données.
-- `models/analyse.py` : Code pour la page d'analyse.
-- `models/prediction.py` : Code pour la page de prédiction.
-- `models/MyApp.py` : Fichier principal pour lancer l'application.
-- `data/` : Répertoire contenant les données de performance énergétique.
-- `utils/` : Répertoire contenant les fonctions utilitaires.
-
-
-
 
 ## Auteurs
 
@@ -71,4 +71,3 @@ Cette application permet d'analyser et de prédire le Diagnostic de Performance 
 ## Liens
 
 Insert gif or link to demo
-
