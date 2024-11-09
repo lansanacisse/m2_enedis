@@ -1,0 +1,35 @@
+Page "Données"
+
+    Présentation des Données : Afficher un aperçu des données disponibles avec des descriptions.
+
+    Cartographie Interactive : Afficher une carte interactive avec les logements localisés.
+
+    Filtres : Permettre aux utilisateurs de filtrer les données par différents critères (par exemple, code postal, date de réception du DPE).
+
+    Tableau Interactif : Afficher un tableau avec les données filtrées.
+
+Page "Analyse"
+
+    Histogrammes : Illustrer la distribution des étiquettes DPE ou de la consommation énergétique.
+
+    Nuages de Points : Montrer les relations entre différentes caractéristiques (par exemple, surface vs consommation énergétique).
+
+    Boîtes à Moustaches : Comparer les distributions des consommations énergétiques entre différents groupes.
+
+    Diagrammes de Barres/Autres : Visualiser les statistiques agrégées.
+
+    Widgets Interactifs : Sliders, sélecteurs pour interagir avec les graphiques.
+
+Page "Prédiction"
+
+    Prédiction DPE et consommation énergétique : Formulaire pour entrer des caractéristiques et afficher les résultats.
+
+    Enrichissement des modèles : Intégrer des données d'OpenData pour améliorer les prédictions.
+
+    Exportation : Bouton pour exporter les résultats ou graphiques en .png.
+
+    Mise à jour et réentraînement : Fonctionnalités pour rafraîchir et réentraîner les modèles via API.
+
+    Déploiement web : Prévoir pour être accessible en ligne.
+
+    Accessibilité via API : Rendre les modèles accessibles pour d'autres applications.
