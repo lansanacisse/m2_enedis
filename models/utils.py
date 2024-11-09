@@ -16,55 +16,52 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import plotly.express as px
 
+
 def create_plotly_pie_chart(labels, sizes):
     fig = px.pie(
-        names=labels, 
-        values=sizes, 
-        title="Répartition des valeurs", 
-        color_discrete_sequence=px.colors.sequential.Viridis
+        names=labels,
+        values=sizes,
+        title="Répartition des valeurs",
+        color_discrete_sequence=px.colors.sequential.Viridis,
     )
-    fig.update_traces(textposition='inside', textinfo='percent+label')
+    fig.update_traces(textposition="inside", textinfo="percent+label")
     fig.update_layout(title_font_size=20)
     return fig
+
 
 def create_seaborn_bar_chart(labels, values):
     fig, ax = plt.subplots(figsize=(10, 6))
     sns.barplot(x=labels, y=values, palette="viridis", ax=ax)
-    ax.set_title("Répartition des données par catégorie", fontsize=14, weight='bold')
+    ax.set_title("Répartition des données par catégorie", fontsize=14, weight="bold")
     ax.set_xlabel("Catégories", fontsize=12)
     ax.set_ylabel("Valeurs", fontsize=12)
     plt.xticks(rotation=45)
     plt.tight_layout()
     return fig
 
+
 def create_plotly_histogram(values):
     fig = px.histogram(
-        values, 
-        nbins=20, 
-        title="Distribution des valeurs", 
-        color_discrete_sequence=['skyblue']
+        values,
+        nbins=20,
+        title="Distribution des valeurs",
+        color_discrete_sequence=["skyblue"],
     )
     fig.update_layout(
-        xaxis_title="Valeurs", 
-        yaxis_title="Fréquence", 
-        title_font_size=20
+        xaxis_title="Valeurs", yaxis_title="Fréquence", title_font_size=20
     )
     return fig
 
+
 def create_plotly_line_chart(x, y):
     fig = px.line(
-        x=x, 
-        y=y, 
-        title="Évolution des valeurs", 
-        markers=True, 
-        line_shape='spline'
+        x=x, y=y, title="Évolution des valeurs", markers=True, line_shape="spline"
     )
     fig.update_layout(
-        xaxis_title="Catégories", 
-        yaxis_title="Valeurs", 
-        title_font_size=20
+        xaxis_title="Catégories", yaxis_title="Valeurs", title_font_size=20
     )
     return fig
+
 
 # Créer un graphique en pgn
 def save_fig_as_png(fig, filename):
@@ -76,6 +73,7 @@ def save_fig_as_png(fig, filename):
         file_name=f"{filename}.png",
         mime="image/png",
     )
+
 
 # Fonction pour charger un modèle spécifique
 def load_model(model_option, target_variable):
@@ -94,6 +92,7 @@ def load_model(model_option, target_variable):
     model_file = models[target_variable][model_option]
     model = joblib.load(model_file)
     return model
+
 
 # Entraîner et sauvegarder les modèles
 def train_and_save_models(data_path, target_variable):
@@ -218,6 +217,7 @@ def retrain_model(
     # Sauvegarder le modèle
     joblib.dump(model, model_filename)
     return model
+
 
 # Mapping des valeurs pour les encodages
 encoding_maps = {
@@ -379,56 +379,53 @@ def predict(type_prediction, model, **kwargs):
         return prediction
 
 
-
 def calculate_kpis(data):
     kpis = {}
 
     # KPI 1: Consommation moyenne des logements
-    moyenne_conso = data['Conso_5_usages_é_finale'].mean()
-    kpis['conso_energetique_moyenne'] = moyenne_conso
+    moyenne_conso = data["Conso_5_usages_é_finale"].mean()
+    kpis["conso_energetique_moyenne"] = moyenne_conso
 
     # KPI 2: Pourcentage de logements au-dessus de la consommation moyenne
-    kpis['pct_logements_au_dessus_moyenne'] = (data['Conso_5_usages_é_finale'] > moyenne_conso).mean() * 100
-    
+    kpis["pct_logements_au_dessus_moyenne"] = (
+        data["Conso_5_usages_é_finale"] > moyenne_conso
+    ).mean() * 100
+
     # KPI 3: Taux de logements « passoires énergétiques » (étiquette DPE F ou G)
-    passoires_energetiques = data['Etiquette_DPE'].isin(['F', 'G']).sum()
-    kpis['taux_passoires_energetiques'] = (passoires_energetiques / len(data)) * 100
+    passoires_energetiques = data["Etiquette_DPE"].isin(["F", "G"]).sum()
+    kpis["taux_passoires_energetiques"] = (passoires_energetiques / len(data)) * 100
 
     # KPI 4: Etiquette DPE la plus fréquente
-    kpis['etiquette_dpe_frequente'] = data['Etiquette_DPE'].mode()[0]
+    kpis["etiquette_dpe_frequente"] = data["Etiquette_DPE"].mode()[0]
 
     return kpis
 
 
-
-import streamlit as st
-import pandas as pd
-
 def afficher_kpis(kpis):
-    st.title("Indicateurs Clés de Performance (KPI)")
+    st.header("Indicateurs Clés de Performance (KPI)")
     st.markdown("---")
 
     # Noms lisibles pour les KPI avec textes réduits
     kpis_readable = {
-        'conso_energetique_moyenne': 'Consommation Moyenne',
-        'pct_logements_au_dessus_moyenne': ' Logements > Moy',
-        'taux_passoires_energetiques': 'Taux Passoires',
-        'etiquette_dpe_frequente': 'DPE Fréquente'
+        "conso_energetique_moyenne": "Consommation Energétique Moyenne",
+        "pct_logements_au_dessus_moyenne": " Poucentage Logements au-dessus Moyenne",
+        "taux_passoires_energetiques": "Taux Passoires Energétiques",
+        "etiquette_dpe_frequente": "Etiquette DPE Fréquente",
     }
 
     # Couleurs et icônes pour les KPI
     colors = {
-        'conso_energetique_moyenne': '#AED6F1',  # Bleu
-        'pct_logements_au_dessus_moyenne': '#ABEBC6 ',  # Vert
-        'taux_passoires_energetiques': '#f0b27a',  # Orange
-        'etiquette_dpe_frequente': '#d5d8dc',  # Gris
+        "conso_energetique_moyenne": "#AED6F1",  # Bleu
+        "pct_logements_au_dessus_moyenne": "#ABEBC6 ",  # Vert
+        "taux_passoires_energetiques": "#f0b27a",  # Orange
+        "etiquette_dpe_frequente": "#d5d8dc",  # Gris
     }
-    
+
     icons = {
-        'conso_energetique_moyenne': '🔋',  # Batterie
-        'pct_logements_au_dessus_moyenne': '🏠',  # Maison
-        'taux_passoires_energetiques': '⚡',  # Éclair
-        'etiquette_dpe_frequente': '🏷️',  # Étiquette
+        "conso_energetique_moyenne": "🔋",  # Batterie
+        "pct_logements_au_dessus_moyenne": "🏠",  # Maison
+        "taux_passoires_energetiques": "⚡",  # Éclair
+        "etiquette_dpe_frequente": "🏷️",  # Étiquette
     }
 
     # Disposer les KPI en colonnes
@@ -441,12 +438,13 @@ def afficher_kpis(kpis):
             value = kpis[kpi_keys[i]]
             # Limiter l'affichage des chiffres à 10 chiffres significatifs
             if isinstance(value, (int, float)):
-                value = f"{value:.10g}"
+                value = f"{value:.7g}"
             st.markdown(
                 f'<div style="background-color: {colors[kpi_keys[i]]}; padding: 20px; border-radius: 5px; text-align: center; height: 150px; display: flex; flex-direction: column; justify-content: center;">'
-                f'<h3>{icons[kpi_keys[i]]} {kpis_readable[kpi_keys[i]]}</h3>'
-                f'<h2>{value}</h2>'
-                f'</div>', unsafe_allow_html=True
+                f"<h3>{icons[kpi_keys[i]]} {kpis_readable[kpi_keys[i]]}</h3>"
+                f"<h2>{value}</h2>"
+                f"</div>",
+                unsafe_allow_html=True,
             )
 
     st.markdown("---")
