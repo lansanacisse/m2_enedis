@@ -41,13 +41,13 @@ def encodage_variables_categorielles(df):
   encoders = {}
 
   for column in df.select_dtypes(include=['object']).columns:
-    # Check if the column has mixed types
+    # On regarde les types des colonnes et on s'assure qu'il n'y a pas de types mixtes
     if df[column].apply(type).nunique() > 1:
-      # If mixed types, convert all values to strings
+      # Si c'est le cas, on converti en string
       df[column] = df[column].astype(str)
     encoders[column] = LabelEncoder()
     encoders[column].fit(df[column])
-    # Use try-except block to handle unseen values during transform
+    # On remplace les valeurs par les valeurs encodées
     try:
       df[column] = encoders[column].transform(df[column])
     except ValueError as e:
@@ -151,7 +151,7 @@ def preprocess_data(df, sauvegarde=False):
   # Export data
   if sauvegarde:
     print("Export des données...")
-    df.to_csv('data/preprocessed_data.csv', index=False)
+    df.to_csv('../data/preprocessed_data.csv', index=False)
     print("Export réussi sous le nom de 'preprocessed_data.csv'")
   return df
 

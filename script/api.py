@@ -11,11 +11,11 @@ logging.basicConfig(level=logging.INFO)
 
 # Charger les modèles (assurez-vous que les fichiers sont dans le même dossier)
 models = {
-    "consumption_xgboost": joblib.load("xgboost.pkl"),
-    "consumption_rdforest": joblib.load("rdforest.joblib"),
+    "consumption_xgboost": joblib.load("../models/xgboost.pkl"),
+    "consumption_rdforest": joblib.load("../models/rdforest.joblib"),
     #"consumption_linearreg": joblib.load("linearReg.pkl"),
-    "label_knn": joblib.load("etiquette_knn_model.pkl"),
-    "label_arbre": joblib.load("etiquette_arbre_de_decision_model.pkl")
+    "label_knn": joblib.load("../models/etiquette_knn_model.pkl"),
+    "label_arbre": joblib.load("../models/etiquette_arbre_de_decision_model.pkl")
 }
 
 # Dictionnaire de mapping pour les étiquettes DPE
