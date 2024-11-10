@@ -1,7 +1,6 @@
 import streamlit as st
 from accueil import accueil_page
 from analyse import analyse_page
-from contexte import contexte_page
 from prediction import prediction_page
 from contexte import contexte_page
 from analyse import visualisation, afficher_carte
@@ -14,7 +13,7 @@ import requests
 import pandas as pd
 
 # Data loading
-data = pd.read_csv("../data/sample.csv", sep=";")
+data = pd.read_csv("../data/dataset_M2_enedis.csv", sep=";")
 
 
 # Fonction pour démarrer l'API FastAPI en arrière-plan
@@ -80,7 +79,8 @@ elif page_key == "contexte":
 elif page_key == "analyse":
     analyse_page()
     visualisation(data)
-    afficher_carte(data)
+    data_carte = data.sample(2_000) # Mettre trop de données sur la carte peut ralenti l'application, on ne prends que 5000 lignes
+    afficher_carte(data_carte)
 elif page_key == "prediction":
     prediction_page()
 elif page_key == "prediction_api":
