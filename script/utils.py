@@ -84,7 +84,7 @@ def load_model(model_option, target_variable):
         "Conso_5_usages_é_finale": {
             "XGBoost": "../models/consommation_xgboost_model.pkl",
             "Arbre de Décision": "../models/consommation_arbre_de_decision_model.pkl",
-            "Forêt Aléatoire": "../models/consommation_random_forest_model.pkl",
+            "Forêt Aléatoire": "../models/consommation_random_forest.pkl",
         },
         "Etiquette_DPE": {
             "K-nearest neighbors": "../models/etiquette_knn_model.pkl",
