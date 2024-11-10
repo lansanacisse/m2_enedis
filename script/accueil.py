@@ -5,11 +5,12 @@ def accueil_page():
     st.title("Analyse des données de performance énergétique")
     st.write(
         """
-        Bienvenue dans l'application d'analyse des données de performance énergétique.
-        Utilisez le menu de gauche pour naviguer entre les différentes pages de l'application.
-        Cette application permet d'analyser et de prédire le Diagnostic de Performance Énergétique (DPE)
-        des logements en France. Elle utilise des modèles d'apprentissage automatique pour estimer 
-        l'étiquette DPE et la consommation énergétique en fonction des caractéristiques du logement.
+  Bienvenue dans l'application d'analyse et de prédiction de la performance énergétique des logements de la région Rhône-Alpes.
+  Cette application a été spécialement conçue pour évaluer et prédire le Diagnostic de Performance Énergétique 
+  (DPE) des logements situés en Rhône-Alpes. Elle permet d’explorer les données énergétiques locales en profondeur
+  grâce à des outils de visualisation intuitifs et des filtres dynamiques. L’application utilise des modèles avancés
+   d’apprentissage automatique pour fournir des estimations précises de l’étiquette DPE et de la consommation énergétique 
+   des logements,
     """
     )
 
