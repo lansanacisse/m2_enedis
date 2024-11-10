@@ -79,14 +79,14 @@ def save_fig_as_png(fig, filename):
 def load_model(model_option, target_variable):
     models = {
         "Conso_5_usages_é_finale": {
-            "XGBoost": "consommation_xgboost_model.pkl",
-            "Arbre de Décision": "consommation_arbre_de_decision_model.pkl",
-            "Forêt Aléatoire": "consommation_random_forest_model.pkl",
+            "XGBoost": "../models/consommation_xgboost_model.pkl",
+            "Arbre de Décision": "../models/consommation_arbre_de_decision_model.pkl",
+            "Forêt Aléatoire": "../models/consommation_random_forest_model.pkl",
         },
         "Etiquette_DPE": {
-            "K-nearest neighbors": "etiquette_knn_model.pkl",
-            "Arbre de Décision": "etiquette_arbre_de_decision_model.pkl",
-            "Forêt Aléatoire": "etiquette_random_forest_model.pkl",
+            "K-nearest neighbors": "../models/etiquette_knn_model.pkl",
+            "Arbre de Décision": "../models/etiquette_arbre_de_decision_model.pkl",
+            "Forêt Aléatoire": "../models/etiquette_random_forest_model.pkl",
         },
     }
     model_file = models[target_variable][model_option]
