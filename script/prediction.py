@@ -170,7 +170,7 @@ def get_model_params(model_option, default_params):
     return params
 
 
-# Prédire la consommation énergétique en fonction des caractéristiques du logement
+# Prédire la consommation énergétique ou l'étiquette DPE en fonction des caractéristiques du logement
 def prediction_page():
     # Choix du type de prédiction dans la barre latérale
     prediction_type = st.sidebar.radio(
@@ -295,11 +295,13 @@ def prediction_page():
 
     elif prediction_type == "Étiquette DPE":
         # Champs d'entrée pour l'étiquette DPE
-        conso_chauffage = st.number_input(
-            "Consommation chauffage en énergie primaire", key="conso_chauffage"
+        conso_5_usages_par_m2_e_primaire = st.number_input(
+            "Consommation 5 usages par m² en énergie primaire",
+            key="conso_5_usages_par_m2_e_primaire",
         )
-        conso_5_usages_finale = st.number_input(
-            "Consommation 5 usages en énergie finale", key="conso_5_usages_finale"
+        conso_5_usages_m2_e_finale = st.number_input(
+            "Consommation 5 usages par m² en énergie finale",
+            key="conso_5_usages_m2_e_finale",
         )
         emission_GES = st.number_input(
             "Émission GES pour 5 usages par m²", key="emission_GES"
@@ -311,8 +313,8 @@ def prediction_page():
         if st.button("Prédire l'étiquette DPE", key="predict_button_dpe"):
             # Vérifier si tous les champs sont renseignés
             if (
-                not conso_chauffage
-                or not conso_5_usages_finale
+                not conso_5_usages_par_m2_e_primaire
+                or not conso_5_usages_m2_e_finale
                 or not emission_GES
                 or not etiquette_GES
                 or not cout_eclairage
@@ -324,8 +326,8 @@ def prediction_page():
                 etiq_dpe = predict(
                     type_prediction="Étiquette DPE",
                     model=model,
-                    conso_chauffage=conso_chauffage,
-                    conso_5_usages_finale=conso_5_usages_finale,
+                    conso_5_usages_par_m2_e_primaire=conso_5_usages_par_m2_e_primaire,
+                    conso_5_usages_m2_e_finale=conso_5_usages_m2_e_finale,
                     emission_ges=emission_GES,
                     etiquette_GES=etiquette_GES,
                     cout_eclairage=cout_eclairage,
