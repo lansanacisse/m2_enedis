@@ -1,0 +1,123 @@
+\doxysection{utils Namespace Reference}
+\hypertarget{namespaceutils}{}\label{namespaceutils}\index{utils@{utils}}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespaceutils_a2b88353c69f5f6b1a520c9a7d84ed1ca}{create\+\_\+plotly\+\_\+pie\+\_\+chart}} (labels, sizes)
+\item 
+\mbox{\hyperlink{namespaceutils_a1d20b5f2bfa4c2d8552f753393015883}{create\+\_\+seaborn\+\_\+bar\+\_\+chart}} (labels, values)
+\item 
+\mbox{\hyperlink{namespaceutils_a9d14c3c737017c67e1276afcdccbf395}{create\+\_\+plotly\+\_\+histogram}} (values)
+\item 
+\mbox{\hyperlink{namespaceutils_ae8f86710362ca0e956c3ea9bb8ef7635}{create\+\_\+plotly\+\_\+line\+\_\+chart}} (x, y)
+\item 
+\mbox{\hyperlink{namespaceutils_a97f2331eda8ae8ef178ee74d8e27c33a}{save\+\_\+fig\+\_\+as\+\_\+png}} (fig, filename)
+\item 
+\mbox{\hyperlink{namespaceutils_ab83f14fe4adcd9cb015a8a0127de3243}{load\+\_\+model}} (model\+\_\+option, target\+\_\+variable)
+\item 
+\mbox{\hyperlink{namespaceutils_acae0651543727975c44cdfb230ba1fc1}{train\+\_\+and\+\_\+save\+\_\+models}} (data\+\_\+path, target\+\_\+variable)
+\item 
+\mbox{\hyperlink{namespaceutils_a190afa995f62c683f05302ebabcf4648}{retrain\+\_\+model}} (model\+\_\+option, params, prediction\+\_\+type, data\+\_\+path="{}../data/preprocessed\+\_\+data.\+csv"{})
+\item 
+\mbox{\hyperlink{namespaceutils_a90274c5cf59cb99478242d97387a3704}{encode\+\_\+input\+\_\+data}} (input\+\_\+data)
+\item 
+\mbox{\hyperlink{namespaceutils_a368d04d09d17882d57c9fc2c277b30d0}{predict}} (type\+\_\+prediction, model, \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}kwargs)
+\item 
+\mbox{\hyperlink{namespaceutils_a8f5117d872fdb3600bb70d372308b65c}{calculate\+\_\+kpis}} (data)
+\item 
+\mbox{\hyperlink{namespaceutils_a47d7c16374e72422806ea3e5d7ab22c0}{afficher\+\_\+kpis}} (kpis)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+dict \mbox{\hyperlink{namespaceutils_a314064dc3a351daceba3f6a9ef047a1c}{encoding\+\_\+maps}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{namespaceutils_a47d7c16374e72422806ea3e5d7ab22c0}\label{namespaceutils_a47d7c16374e72422806ea3e5d7ab22c0} 
+\index{utils@{utils}!afficher\_kpis@{afficher\_kpis}}
+\index{afficher\_kpis@{afficher\_kpis}!utils@{utils}}
+\doxysubsubsection{\texorpdfstring{afficher\_kpis()}{afficher\_kpis()}}
+{\footnotesize\ttfamily utils.\+afficher\+\_\+kpis (\begin{DoxyParamCaption}\item[{}]{kpis }\end{DoxyParamCaption})}
+
+\Hypertarget{namespaceutils_a8f5117d872fdb3600bb70d372308b65c}\label{namespaceutils_a8f5117d872fdb3600bb70d372308b65c} 
+\index{utils@{utils}!calculate\_kpis@{calculate\_kpis}}
+\index{calculate\_kpis@{calculate\_kpis}!utils@{utils}}
+\doxysubsubsection{\texorpdfstring{calculate\_kpis()}{calculate\_kpis()}}
+{\footnotesize\ttfamily utils.\+calculate\+\_\+kpis (\begin{DoxyParamCaption}\item[{}]{data }\end{DoxyParamCaption})}
+
+\Hypertarget{namespaceutils_a9d14c3c737017c67e1276afcdccbf395}\label{namespaceutils_a9d14c3c737017c67e1276afcdccbf395} 
+\index{utils@{utils}!create\_plotly\_histogram@{create\_plotly\_histogram}}
+\index{create\_plotly\_histogram@{create\_plotly\_histogram}!utils@{utils}}
+\doxysubsubsection{\texorpdfstring{create\_plotly\_histogram()}{create\_plotly\_histogram()}}
+{\footnotesize\ttfamily utils.\+create\+\_\+plotly\+\_\+histogram (\begin{DoxyParamCaption}\item[{}]{values }\end{DoxyParamCaption})}
+
+\Hypertarget{namespaceutils_ae8f86710362ca0e956c3ea9bb8ef7635}\label{namespaceutils_ae8f86710362ca0e956c3ea9bb8ef7635} 
+\index{utils@{utils}!create\_plotly\_line\_chart@{create\_plotly\_line\_chart}}
+\index{create\_plotly\_line\_chart@{create\_plotly\_line\_chart}!utils@{utils}}
+\doxysubsubsection{\texorpdfstring{create\_plotly\_line\_chart()}{create\_plotly\_line\_chart()}}
+{\footnotesize\ttfamily utils.\+create\+\_\+plotly\+\_\+line\+\_\+chart (\begin{DoxyParamCaption}\item[{}]{x,  }\item[{}]{y }\end{DoxyParamCaption})}
+
+\Hypertarget{namespaceutils_a2b88353c69f5f6b1a520c9a7d84ed1ca}\label{namespaceutils_a2b88353c69f5f6b1a520c9a7d84ed1ca} 
+\index{utils@{utils}!create\_plotly\_pie\_chart@{create\_plotly\_pie\_chart}}
+\index{create\_plotly\_pie\_chart@{create\_plotly\_pie\_chart}!utils@{utils}}
+\doxysubsubsection{\texorpdfstring{create\_plotly\_pie\_chart()}{create\_plotly\_pie\_chart()}}
+{\footnotesize\ttfamily utils.\+create\+\_\+plotly\+\_\+pie\+\_\+chart (\begin{DoxyParamCaption}\item[{}]{labels,  }\item[{}]{sizes }\end{DoxyParamCaption})}
+
+\Hypertarget{namespaceutils_a1d20b5f2bfa4c2d8552f753393015883}\label{namespaceutils_a1d20b5f2bfa4c2d8552f753393015883} 
+\index{utils@{utils}!create\_seaborn\_bar\_chart@{create\_seaborn\_bar\_chart}}
+\index{create\_seaborn\_bar\_chart@{create\_seaborn\_bar\_chart}!utils@{utils}}
+\doxysubsubsection{\texorpdfstring{create\_seaborn\_bar\_chart()}{create\_seaborn\_bar\_chart()}}
+{\footnotesize\ttfamily utils.\+create\+\_\+seaborn\+\_\+bar\+\_\+chart (\begin{DoxyParamCaption}\item[{}]{labels,  }\item[{}]{values }\end{DoxyParamCaption})}
+
+\Hypertarget{namespaceutils_a90274c5cf59cb99478242d97387a3704}\label{namespaceutils_a90274c5cf59cb99478242d97387a3704} 
+\index{utils@{utils}!encode\_input\_data@{encode\_input\_data}}
+\index{encode\_input\_data@{encode\_input\_data}!utils@{utils}}
+\doxysubsubsection{\texorpdfstring{encode\_input\_data()}{encode\_input\_data()}}
+{\footnotesize\ttfamily utils.\+encode\+\_\+input\+\_\+data (\begin{DoxyParamCaption}\item[{}]{input\+\_\+data }\end{DoxyParamCaption})}
+
+\Hypertarget{namespaceutils_ab83f14fe4adcd9cb015a8a0127de3243}\label{namespaceutils_ab83f14fe4adcd9cb015a8a0127de3243} 
+\index{utils@{utils}!load\_model@{load\_model}}
+\index{load\_model@{load\_model}!utils@{utils}}
+\doxysubsubsection{\texorpdfstring{load\_model()}{load\_model()}}
+{\footnotesize\ttfamily utils.\+load\+\_\+model (\begin{DoxyParamCaption}\item[{}]{model\+\_\+option,  }\item[{}]{target\+\_\+variable }\end{DoxyParamCaption})}
+
+\Hypertarget{namespaceutils_a368d04d09d17882d57c9fc2c277b30d0}\label{namespaceutils_a368d04d09d17882d57c9fc2c277b30d0} 
+\index{utils@{utils}!predict@{predict}}
+\index{predict@{predict}!utils@{utils}}
+\doxysubsubsection{\texorpdfstring{predict()}{predict()}}
+{\footnotesize\ttfamily utils.\+predict (\begin{DoxyParamCaption}\item[{}]{type\+\_\+prediction,  }\item[{}]{model,  }\item[{\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{kwargs }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Fonction de prédiction unique pour l'étiquette DPE ou la consommation énergétique.
+type_prediction : str - "Étiquette DPE" ou "Consommation Énergétique"
+model : modèle de prédiction entraîné
+kwargs : caractéristiques du logement nécessaires pour la prédiction
+\end{DoxyVerb}
+ \Hypertarget{namespaceutils_a190afa995f62c683f05302ebabcf4648}\label{namespaceutils_a190afa995f62c683f05302ebabcf4648} 
+\index{utils@{utils}!retrain\_model@{retrain\_model}}
+\index{retrain\_model@{retrain\_model}!utils@{utils}}
+\doxysubsubsection{\texorpdfstring{retrain\_model()}{retrain\_model()}}
+{\footnotesize\ttfamily utils.\+retrain\+\_\+model (\begin{DoxyParamCaption}\item[{}]{model\+\_\+option,  }\item[{}]{params,  }\item[{}]{prediction\+\_\+type,  }\item[{}]{data\+\_\+path = {\ttfamily "{}../data/preprocessed\+\_\+data.csv"{}} }\end{DoxyParamCaption})}
+
+\Hypertarget{namespaceutils_a97f2331eda8ae8ef178ee74d8e27c33a}\label{namespaceutils_a97f2331eda8ae8ef178ee74d8e27c33a} 
+\index{utils@{utils}!save\_fig\_as\_png@{save\_fig\_as\_png}}
+\index{save\_fig\_as\_png@{save\_fig\_as\_png}!utils@{utils}}
+\doxysubsubsection{\texorpdfstring{save\_fig\_as\_png()}{save\_fig\_as\_png()}}
+{\footnotesize\ttfamily utils.\+save\+\_\+fig\+\_\+as\+\_\+png (\begin{DoxyParamCaption}\item[{}]{fig,  }\item[{}]{filename }\end{DoxyParamCaption})}
+
+\Hypertarget{namespaceutils_acae0651543727975c44cdfb230ba1fc1}\label{namespaceutils_acae0651543727975c44cdfb230ba1fc1} 
+\index{utils@{utils}!train\_and\_save\_models@{train\_and\_save\_models}}
+\index{train\_and\_save\_models@{train\_and\_save\_models}!utils@{utils}}
+\doxysubsubsection{\texorpdfstring{train\_and\_save\_models()}{train\_and\_save\_models()}}
+{\footnotesize\ttfamily utils.\+train\+\_\+and\+\_\+save\+\_\+models (\begin{DoxyParamCaption}\item[{}]{data\+\_\+path,  }\item[{}]{target\+\_\+variable }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{namespaceutils_a314064dc3a351daceba3f6a9ef047a1c}\label{namespaceutils_a314064dc3a351daceba3f6a9ef047a1c} 
+\index{utils@{utils}!encoding\_maps@{encoding\_maps}}
+\index{encoding\_maps@{encoding\_maps}!utils@{utils}}
+\doxysubsubsection{\texorpdfstring{encoding\_maps}{encoding\_maps}}
+{\footnotesize\ttfamily dict utils.\+encoding\+\_\+maps}
+

@@ -407,10 +407,10 @@ def afficher_kpis(kpis):
 
     # Noms lisibles pour les KPI avec textes réduits
     kpis_readable = {
-        "conso_energetique_moyenne": "Consommation Energétique Moyenne",
-        "pct_logements_au_dessus_moyenne": " Poucentage Logements au-dessus Moyenne",
-        "taux_passoires_energetiques": "Taux Passoires Energétiques",
-        "etiquette_dpe_frequente": "Etiquette DPE Fréquente",
+        "conso_energetique_moyenne": "Consommation Energétique Moyenne (en kWh/logement)",
+        "pct_logements_au_dessus_moyenne": " Poucentage de Logements au-dessus de la Moyenne",
+        "taux_passoires_energetiques": "Taux de Passoires Energétiques (en %)",
+        "etiquette_dpe_frequente": "Etiquette DPE la plus fréquente",
     }
 
     # Couleurs et icônes pour les KPI
@@ -441,8 +441,8 @@ def afficher_kpis(kpis):
                 value = f"{value:.7g}"
             st.markdown(
                 f'<div style="background-color: {colors[kpi_keys[i]]}; padding: 20px; border-radius: 5px; text-align: center; height: 150px; display: flex; flex-direction: column; justify-content: center;">'
-                f"<h3>{icons[kpi_keys[i]]} {kpis_readable[kpi_keys[i]]}</h3>"
-                f"<h2>{value}</h2>"
+                f"<h4>{icons[kpi_keys[i]]} {kpis_readable[kpi_keys[i]]}</h4>"
+                f"<h4>{value}</h4>"
                 f"</div>",
                 unsafe_allow_html=True,
             )

@@ -1,4 +1,20 @@
 var searchData=
 [
-  ['utilisation_0',['Utilisation',['../md__r_e_a_d_m_e.html#autotoc_md4',1,'']]]
+  ['page_5ficon_0',['page_icon',['../namespace_my_app.html#a5d662027a009df3ab082cb291ca4996c',1,'MyApp']]],
+  ['page_5fkey_1',['page_key',['../namespace_my_app.html#a240db08f8ece7eed653f894fc420b4f0',1,'MyApp']]],
+  ['page_5ftitle_2',['page_title',['../namespace_my_app.html#a7b59c721324fb686d718c8cc292d984d',1,'MyApp']]],
+  ['percent_5fmissing_3',['percent_missing',['../namespacepre__processing.html#add7301b886ee513a03cc7865bb5d8b8a',1,'pre_processing']]],
+  ['prérequis_4',['Prérequis',['../md__r_e_a_d_m_e.html#autotoc_md2',1,'']]],
+  ['pre_5fprocessing_5',['pre_processing',['../namespacepre__processing.html',1,'']]],
+  ['pre_5fprocessing_2epy_6',['pre_processing.py',['../pre__processing_8py.html',1,'']]],
+  ['predict_7',['predict',['../namespaceutils.html#a368d04d09d17882d57c9fc2c277b30d0',1,'utils']]],
+  ['predict_5fconsumption_8',['predict_consumption',['../namespaceapi.html#ad84a7cfe9b921fe797fafd958305cc70',1,'api']]],
+  ['predict_5flabel_9',['predict_label',['../namespaceapi.html#a08ed5ba7e0db8ef6c91e06a5973f8cdb',1,'api']]],
+  ['prediction_10',['prediction',['../namespaceprediction.html',1,'']]],
+  ['prediction_2epy_11',['prediction.py',['../prediction_8py.html',1,'']]],
+  ['prediction_5fapi_12',['prediction_API',['../namespaceprediction___a_p_i.html',1,'']]],
+  ['prediction_5fapi_2epy_13',['prediction_API.py',['../prediction___a_p_i_8py.html',1,'']]],
+  ['prediction_5fapi_5fpage_14',['prediction_api_page',['../namespaceprediction___a_p_i.html#a9c0a26ad001894f4794324be0a18dd8c',1,'prediction_API']]],
+  ['prediction_5fpage_15',['prediction_page',['../namespaceprediction.html#af8911f83c76a809f890140330bcae72a',1,'prediction']]],
+  ['preprocess_5fdata_16',['preprocess_data',['../namespacepre__processing.html#a1eee5b1feba07654deb74aa6b12b84ed',1,'pre_processing']]]
 ];

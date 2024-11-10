@@ -1,9 +1,10 @@
 var searchData=
 [
-  ['test_5fencodage_5fvariables_5fcategorielles_0',['test_encodage_variables_categorielles',['../classtest__pre__process_1_1_test_data_processing.html#a4d36640be40c687980736769018a3126',1,'test_pre_process::TestDataProcessing']]],
-  ['test_5fgestion_5foutliers_1',['test_gestion_outliers',['../classtest__pre__process_1_1_test_data_processing.html#ad99650dbbaf077cfeb124b7649819aa3',1,'test_pre_process::TestDataProcessing']]],
-  ['test_5fgestion_5fvaleurs_5fmanquantes_2',['test_gestion_valeurs_manquantes',['../classtest__pre__process_1_1_test_data_processing.html#aedf8b6ccbd6d875337dd95cc0cb4818e',1,'test_pre_process::TestDataProcessing']]],
-  ['test_5fimport_5fdata_3',['test_import_data',['../classtest__pre__process_1_1_test_data_processing.html#aff9266b0bcc8acc176e90a5dc41a21c7',1,'test_pre_process::TestDataProcessing']]],
-  ['test_5fpercent_5fmissing_4',['test_percent_missing',['../classtest__pre__process_1_1_test_data_processing.html#a397122520765c1c35743c09db9742164',1,'test_pre_process::TestDataProcessing']]],
-  ['test_5fpreprocess_5fdata_5',['test_preprocess_data',['../classtest__pre__process_1_1_test_data_processing.html#afd757c984a92c88e8877ce5527b848f3',1,'test_pre_process::TestDataProcessing']]]
+  ['calculate_5fkpis_0',['calculate_kpis',['../namespaceutils.html#a8f5117d872fdb3600bb70d372308b65c',1,'utils']]],
+  ['call_5fapi_1',['call_API',['../namespacecontexte.html#af4482f0dc9e6a61d12649e94a1c5b5c0',1,'contexte']]],
+  ['contexte_5fpage_2',['contexte_page',['../namespacecontexte.html#a12798551ddb89a820ae7353d75738e9c',1,'contexte']]],
+  ['create_5fplotly_5fhistogram_3',['create_plotly_histogram',['../namespaceutils.html#a9d14c3c737017c67e1276afcdccbf395',1,'utils']]],
+  ['create_5fplotly_5fline_5fchart_4',['create_plotly_line_chart',['../namespaceutils.html#ae8f86710362ca0e956c3ea9bb8ef7635',1,'utils']]],
+  ['create_5fplotly_5fpie_5fchart_5',['create_plotly_pie_chart',['../namespaceutils.html#a2b88353c69f5f6b1a520c9a7d84ed1ca',1,'utils']]],
+  ['create_5fseaborn_5fbar_5fchart_6',['create_seaborn_bar_chart',['../namespaceutils.html#a1d20b5f2bfa4c2d8552f753393015883',1,'utils']]]
 ];

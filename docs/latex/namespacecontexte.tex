@@ -1,0 +1,194 @@
+\doxysection{contexte Namespace Reference}
+\hypertarget{namespacecontexte}{}\label{namespacecontexte}\index{contexte@{contexte}}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespacecontexte_a12798551ddb89a820ae7353d75738e9c}{contexte\+\_\+page}} ()
+\item 
+\mbox{\hyperlink{namespacecontexte_af4482f0dc9e6a61d12649e94a1c5b5c0}{call\+\_\+\+API}} (url)
+\begin{DoxyCompactList}\small\item\em Fonction pour appeler l\textquotesingle{}API ADEME et récupérer les données de logements pour un département avant une certaine date. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespacecontexte_aae6914715ceb896ecaedeb5f8dd1d725}{rafraichir\+\_\+donnees}} (url, \mbox{\hyperlink{namespacecontexte_abf949e94d6225f2083f7ad6adc8e12ef}{oldest\+\_\+date}}="{}2024-\/09-\/01"{})
+\begin{DoxyCompactList}\small\item\em Fonction pour rafraîchir les données en récupérant les enregistrements de logements à partir du 2 septembre 2024. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+str \mbox{\hyperlink{namespacecontexte_abbf45e6ed55c7c3bc251922ca1fe064c}{base\+\_\+url\+\_\+existant}} = "{}https\+://data.\+ademe.\+fr/\mbox{\hyperlink{namespacecontexte_a2507e90ffdd720adb3ab53f066289b9a}{data}}-\/fair/api/v1/datasets/dpe-\/v2-\/logements-\/existants/lines"{}
+\begin{DoxyCompactList}\small\item\em APPEL API \#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#. \end{DoxyCompactList}\item 
+str \mbox{\hyperlink{namespacecontexte_a3581b50460ebebf4bea9d118d325bebf}{base\+\_\+url\+\_\+neuf}} = "{}https\+://data.\+ademe.\+fr/\mbox{\hyperlink{namespacecontexte_a2507e90ffdd720adb3ab53f066289b9a}{data}}-\/fair/api/v1/datasets/dpe-\/v2-\/logements-\/neufs/lines"{}
+\item 
+\mbox{\hyperlink{namespacecontexte_a9fef8d3f3b0c752fdc2d8dfdcfa5341f}{df\+\_\+rhone}} = pd.\+read\+\_\+csv("{}../data/adresses-\/69.csv"{}, \mbox{\hyperlink{namespacecontexte_a38bc201d341287d304c535de5244828e}{sep}}="{};"{})
+\item 
+\mbox{\hyperlink{namespacecontexte_ac1530cdf4bf93ff5667586aeba260659}{liste\+\_\+code\+\_\+postal\+\_\+rhone}} = sorted(\mbox{\hyperlink{namespacecontexte_a9fef8d3f3b0c752fdc2d8dfdcfa5341f}{df\+\_\+rhone}}\mbox{[}"{}code\+\_\+postal"{}\mbox{]}.unique().tolist())
+\item 
+\mbox{\hyperlink{namespacecontexte_aeffb6b82f62203dbcc01017ed140f312}{df\+\_\+existants}} = \mbox{\hyperlink{namespacecontexte_af4482f0dc9e6a61d12649e94a1c5b5c0}{call\+\_\+\+API}}(\mbox{\hyperlink{namespacecontexte_abbf45e6ed55c7c3bc251922ca1fe064c}{base\+\_\+url\+\_\+existant}})
+\item 
+\mbox{\hyperlink{namespacecontexte_a5be58e71ba470208206143135130d961}{df\+\_\+neufs}} = \mbox{\hyperlink{namespacecontexte_af4482f0dc9e6a61d12649e94a1c5b5c0}{call\+\_\+\+API}}(\mbox{\hyperlink{namespacecontexte_a3581b50460ebebf4bea9d118d325bebf}{base\+\_\+url\+\_\+neuf}})
+\item 
+\mbox{\hyperlink{namespacecontexte_aa0593114ea80651855802f188612166c}{common\+\_\+columns}} = list(set(df\+\_\+existants.\+columns).intersection(set(df\+\_\+neufs.\+columns)))
+\item 
+\mbox{\hyperlink{namespacecontexte_a6fed22b45a087471859e6d437ea7b5ba}{df\+\_\+merged}} = pd.\+concat(\mbox{[}\mbox{\hyperlink{namespacecontexte_aeffb6b82f62203dbcc01017ed140f312}{df\+\_\+existants}}\mbox{[}\mbox{\hyperlink{namespacecontexte_aa0593114ea80651855802f188612166c}{common\+\_\+columns}}\mbox{]}, \mbox{\hyperlink{namespacecontexte_a5be58e71ba470208206143135130d961}{df\+\_\+neufs}}\mbox{[}\mbox{\hyperlink{namespacecontexte_aa0593114ea80651855802f188612166c}{common\+\_\+columns}}\mbox{]}\mbox{]}, ignore\+\_\+index=True)
+\item 
+\mbox{\hyperlink{namespacecontexte_aab591bd65fb6903c498c8bdc74a695bc}{index}}
+\item 
+\mbox{\hyperlink{namespacecontexte_aa2659a97841eb8347c9b1795f8acd010}{False}}
+\item 
+\mbox{\hyperlink{namespacecontexte_a38bc201d341287d304c535de5244828e}{sep}}
+\item 
+\mbox{\hyperlink{namespacecontexte_a2e1c186ea18c69b208936db4f01ab150}{encoding}}
+\item 
+\mbox{\hyperlink{namespacecontexte_abf949e94d6225f2083f7ad6adc8e12ef}{oldest\+\_\+date}} = \mbox{\hyperlink{namespacecontexte_a6fed22b45a087471859e6d437ea7b5ba}{df\+\_\+merged}}\mbox{[}\textquotesingle{}Date\+\_\+réception\+\_\+\+DPE\textquotesingle{}\mbox{]}.max()
+\item 
+\mbox{\hyperlink{namespacecontexte_aa834d29859380881f701e328584cd578}{df\+\_\+merged\+\_\+refresh}} = pd.\+concat(\mbox{[}\mbox{\hyperlink{namespacecontexte_aeffb6b82f62203dbcc01017ed140f312}{df\+\_\+existants}}\mbox{[}\mbox{\hyperlink{namespacecontexte_aa0593114ea80651855802f188612166c}{common\+\_\+columns}}\mbox{]}, \mbox{\hyperlink{namespacecontexte_a5be58e71ba470208206143135130d961}{df\+\_\+neufs}}\mbox{[}\mbox{\hyperlink{namespacecontexte_aa0593114ea80651855802f188612166c}{common\+\_\+columns}}\mbox{]}\mbox{]}, ignore\+\_\+index=True)
+\item 
+\mbox{\hyperlink{namespacecontexte_a2507e90ffdd720adb3ab53f066289b9a}{data}}
+\item 
+\mbox{\hyperlink{namespacecontexte_ae2f44274312366ca5191bf0b62f26949}{file\+\_\+name}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{namespacecontexte_af4482f0dc9e6a61d12649e94a1c5b5c0}\label{namespacecontexte_af4482f0dc9e6a61d12649e94a1c5b5c0} 
+\index{contexte@{contexte}!call\_API@{call\_API}}
+\index{call\_API@{call\_API}!contexte@{contexte}}
+\doxysubsubsection{\texorpdfstring{call\_API()}{call\_API()}}
+{\footnotesize\ttfamily contexte.\+call\+\_\+\+API (\begin{DoxyParamCaption}\item[{}]{url }\end{DoxyParamCaption})}
+
+
+
+Fonction pour appeler l\textquotesingle{}API ADEME et récupérer les données de logements pour un département avant une certaine date. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em url} & L\textquotesingle{}URL de l\textquotesingle{}API ADEME pour les logements (existants ou neufs). \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Un Data\+Frame contenant les données récupérées de l\textquotesingle{}API. On récupère les données pour chaque code postal du Rhône mais uniquement avant le 1er septembre 2024 (on va ensuite implémenter un bouton pour rafraichir les données) 
+\end{DoxyReturn}
+\Hypertarget{namespacecontexte_a12798551ddb89a820ae7353d75738e9c}\label{namespacecontexte_a12798551ddb89a820ae7353d75738e9c} 
+\index{contexte@{contexte}!contexte\_page@{contexte\_page}}
+\index{contexte\_page@{contexte\_page}!contexte@{contexte}}
+\doxysubsubsection{\texorpdfstring{contexte\_page()}{contexte\_page()}}
+{\footnotesize\ttfamily contexte.\+contexte\+\_\+page (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{namespacecontexte_aae6914715ceb896ecaedeb5f8dd1d725}\label{namespacecontexte_aae6914715ceb896ecaedeb5f8dd1d725} 
+\index{contexte@{contexte}!rafraichir\_donnees@{rafraichir\_donnees}}
+\index{rafraichir\_donnees@{rafraichir\_donnees}!contexte@{contexte}}
+\doxysubsubsection{\texorpdfstring{rafraichir\_donnees()}{rafraichir\_donnees()}}
+{\footnotesize\ttfamily contexte.\+rafraichir\+\_\+donnees (\begin{DoxyParamCaption}\item[{}]{url,  }\item[{}]{oldest\+\_\+date = {\ttfamily "{}2024-\/09-\/01"{}} }\end{DoxyParamCaption})}
+
+
+
+Fonction pour rafraîchir les données en récupérant les enregistrements de logements à partir du 2 septembre 2024. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em url} & L\textquotesingle{}URL de l\textquotesingle{}API ADEME pour les logements (existants ou neufs). \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Un Data\+Frame contenant les données mises à jour. 
+\end{DoxyReturn}
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{namespacecontexte_abbf45e6ed55c7c3bc251922ca1fe064c}\label{namespacecontexte_abbf45e6ed55c7c3bc251922ca1fe064c} 
+\index{contexte@{contexte}!base\_url\_existant@{base\_url\_existant}}
+\index{base\_url\_existant@{base\_url\_existant}!contexte@{contexte}}
+\doxysubsubsection{\texorpdfstring{base\_url\_existant}{base\_url\_existant}}
+{\footnotesize\ttfamily str contexte.\+base\+\_\+url\+\_\+existant = "{}https\+://data.\+ademe.\+fr/\mbox{\hyperlink{namespacecontexte_a2507e90ffdd720adb3ab53f066289b9a}{data}}-\/fair/api/v1/datasets/dpe-\/v2-\/logements-\/existants/lines"{}}
+
+
+
+APPEL API \#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#. 
+
+\Hypertarget{namespacecontexte_a3581b50460ebebf4bea9d118d325bebf}\label{namespacecontexte_a3581b50460ebebf4bea9d118d325bebf} 
+\index{contexte@{contexte}!base\_url\_neuf@{base\_url\_neuf}}
+\index{base\_url\_neuf@{base\_url\_neuf}!contexte@{contexte}}
+\doxysubsubsection{\texorpdfstring{base\_url\_neuf}{base\_url\_neuf}}
+{\footnotesize\ttfamily str contexte.\+base\+\_\+url\+\_\+neuf = "{}https\+://data.\+ademe.\+fr/\mbox{\hyperlink{namespacecontexte_a2507e90ffdd720adb3ab53f066289b9a}{data}}-\/fair/api/v1/datasets/dpe-\/v2-\/logements-\/neufs/lines"{}}
+
+\Hypertarget{namespacecontexte_aa0593114ea80651855802f188612166c}\label{namespacecontexte_aa0593114ea80651855802f188612166c} 
+\index{contexte@{contexte}!common\_columns@{common\_columns}}
+\index{common\_columns@{common\_columns}!contexte@{contexte}}
+\doxysubsubsection{\texorpdfstring{common\_columns}{common\_columns}}
+{\footnotesize\ttfamily contexte.\+common\+\_\+columns = list(set(df\+\_\+existants.\+columns).intersection(set(df\+\_\+neufs.\+columns)))}
+
+\Hypertarget{namespacecontexte_a2507e90ffdd720adb3ab53f066289b9a}\label{namespacecontexte_a2507e90ffdd720adb3ab53f066289b9a} 
+\index{contexte@{contexte}!data@{data}}
+\index{data@{data}!contexte@{contexte}}
+\doxysubsubsection{\texorpdfstring{data}{data}}
+{\footnotesize\ttfamily contexte.\+data}
+
+\Hypertarget{namespacecontexte_aeffb6b82f62203dbcc01017ed140f312}\label{namespacecontexte_aeffb6b82f62203dbcc01017ed140f312} 
+\index{contexte@{contexte}!df\_existants@{df\_existants}}
+\index{df\_existants@{df\_existants}!contexte@{contexte}}
+\doxysubsubsection{\texorpdfstring{df\_existants}{df\_existants}}
+{\footnotesize\ttfamily contexte.\+df\+\_\+existants = \mbox{\hyperlink{namespacecontexte_af4482f0dc9e6a61d12649e94a1c5b5c0}{call\+\_\+\+API}}(\mbox{\hyperlink{namespacecontexte_abbf45e6ed55c7c3bc251922ca1fe064c}{base\+\_\+url\+\_\+existant}})}
+
+\Hypertarget{namespacecontexte_a6fed22b45a087471859e6d437ea7b5ba}\label{namespacecontexte_a6fed22b45a087471859e6d437ea7b5ba} 
+\index{contexte@{contexte}!df\_merged@{df\_merged}}
+\index{df\_merged@{df\_merged}!contexte@{contexte}}
+\doxysubsubsection{\texorpdfstring{df\_merged}{df\_merged}}
+{\footnotesize\ttfamily contexte.\+df\+\_\+merged = pd.\+concat(\mbox{[}\mbox{\hyperlink{namespacecontexte_aeffb6b82f62203dbcc01017ed140f312}{df\+\_\+existants}}\mbox{[}\mbox{\hyperlink{namespacecontexte_aa0593114ea80651855802f188612166c}{common\+\_\+columns}}\mbox{]}, \mbox{\hyperlink{namespacecontexte_a5be58e71ba470208206143135130d961}{df\+\_\+neufs}}\mbox{[}\mbox{\hyperlink{namespacecontexte_aa0593114ea80651855802f188612166c}{common\+\_\+columns}}\mbox{]}\mbox{]}, ignore\+\_\+index=True)}
+
+\Hypertarget{namespacecontexte_aa834d29859380881f701e328584cd578}\label{namespacecontexte_aa834d29859380881f701e328584cd578} 
+\index{contexte@{contexte}!df\_merged\_refresh@{df\_merged\_refresh}}
+\index{df\_merged\_refresh@{df\_merged\_refresh}!contexte@{contexte}}
+\doxysubsubsection{\texorpdfstring{df\_merged\_refresh}{df\_merged\_refresh}}
+{\footnotesize\ttfamily contexte.\+df\+\_\+merged\+\_\+refresh = pd.\+concat(\mbox{[}\mbox{\hyperlink{namespacecontexte_aeffb6b82f62203dbcc01017ed140f312}{df\+\_\+existants}}\mbox{[}\mbox{\hyperlink{namespacecontexte_aa0593114ea80651855802f188612166c}{common\+\_\+columns}}\mbox{]}, \mbox{\hyperlink{namespacecontexte_a5be58e71ba470208206143135130d961}{df\+\_\+neufs}}\mbox{[}\mbox{\hyperlink{namespacecontexte_aa0593114ea80651855802f188612166c}{common\+\_\+columns}}\mbox{]}\mbox{]}, ignore\+\_\+index=True)}
+
+\Hypertarget{namespacecontexte_a5be58e71ba470208206143135130d961}\label{namespacecontexte_a5be58e71ba470208206143135130d961} 
+\index{contexte@{contexte}!df\_neufs@{df\_neufs}}
+\index{df\_neufs@{df\_neufs}!contexte@{contexte}}
+\doxysubsubsection{\texorpdfstring{df\_neufs}{df\_neufs}}
+{\footnotesize\ttfamily contexte.\+df\+\_\+neufs = \mbox{\hyperlink{namespacecontexte_af4482f0dc9e6a61d12649e94a1c5b5c0}{call\+\_\+\+API}}(\mbox{\hyperlink{namespacecontexte_a3581b50460ebebf4bea9d118d325bebf}{base\+\_\+url\+\_\+neuf}})}
+
+\Hypertarget{namespacecontexte_a9fef8d3f3b0c752fdc2d8dfdcfa5341f}\label{namespacecontexte_a9fef8d3f3b0c752fdc2d8dfdcfa5341f} 
+\index{contexte@{contexte}!df\_rhone@{df\_rhone}}
+\index{df\_rhone@{df\_rhone}!contexte@{contexte}}
+\doxysubsubsection{\texorpdfstring{df\_rhone}{df\_rhone}}
+{\footnotesize\ttfamily contexte.\+df\+\_\+rhone = pd.\+read\+\_\+csv("{}../data/adresses-\/69.csv"{}, \mbox{\hyperlink{namespacecontexte_a38bc201d341287d304c535de5244828e}{sep}}="{};"{})}
+
+\Hypertarget{namespacecontexte_a2e1c186ea18c69b208936db4f01ab150}\label{namespacecontexte_a2e1c186ea18c69b208936db4f01ab150} 
+\index{contexte@{contexte}!encoding@{encoding}}
+\index{encoding@{encoding}!contexte@{contexte}}
+\doxysubsubsection{\texorpdfstring{encoding}{encoding}}
+{\footnotesize\ttfamily contexte.\+encoding}
+
+\Hypertarget{namespacecontexte_aa2659a97841eb8347c9b1795f8acd010}\label{namespacecontexte_aa2659a97841eb8347c9b1795f8acd010} 
+\index{contexte@{contexte}!False@{False}}
+\index{False@{False}!contexte@{contexte}}
+\doxysubsubsection{\texorpdfstring{False}{False}}
+{\footnotesize\ttfamily contexte.\+False}
+
+\Hypertarget{namespacecontexte_ae2f44274312366ca5191bf0b62f26949}\label{namespacecontexte_ae2f44274312366ca5191bf0b62f26949} 
+\index{contexte@{contexte}!file\_name@{file\_name}}
+\index{file\_name@{file\_name}!contexte@{contexte}}
+\doxysubsubsection{\texorpdfstring{file\_name}{file\_name}}
+{\footnotesize\ttfamily contexte.\+file\+\_\+name}
+
+\Hypertarget{namespacecontexte_aab591bd65fb6903c498c8bdc74a695bc}\label{namespacecontexte_aab591bd65fb6903c498c8bdc74a695bc} 
+\index{contexte@{contexte}!index@{index}}
+\index{index@{index}!contexte@{contexte}}
+\doxysubsubsection{\texorpdfstring{index}{index}}
+{\footnotesize\ttfamily contexte.\+index}
+
+\Hypertarget{namespacecontexte_ac1530cdf4bf93ff5667586aeba260659}\label{namespacecontexte_ac1530cdf4bf93ff5667586aeba260659} 
+\index{contexte@{contexte}!liste\_code\_postal\_rhone@{liste\_code\_postal\_rhone}}
+\index{liste\_code\_postal\_rhone@{liste\_code\_postal\_rhone}!contexte@{contexte}}
+\doxysubsubsection{\texorpdfstring{liste\_code\_postal\_rhone}{liste\_code\_postal\_rhone}}
+{\footnotesize\ttfamily contexte.\+liste\+\_\+code\+\_\+postal\+\_\+rhone = sorted(\mbox{\hyperlink{namespacecontexte_a9fef8d3f3b0c752fdc2d8dfdcfa5341f}{df\+\_\+rhone}}\mbox{[}"{}code\+\_\+postal"{}\mbox{]}.unique().tolist())}
+
+\Hypertarget{namespacecontexte_abf949e94d6225f2083f7ad6adc8e12ef}\label{namespacecontexte_abf949e94d6225f2083f7ad6adc8e12ef} 
+\index{contexte@{contexte}!oldest\_date@{oldest\_date}}
+\index{oldest\_date@{oldest\_date}!contexte@{contexte}}
+\doxysubsubsection{\texorpdfstring{oldest\_date}{oldest\_date}}
+{\footnotesize\ttfamily contexte.\+oldest\+\_\+date = \mbox{\hyperlink{namespacecontexte_a6fed22b45a087471859e6d437ea7b5ba}{df\+\_\+merged}}\mbox{[}\textquotesingle{}Date\+\_\+réception\+\_\+\+DPE\textquotesingle{}\mbox{]}.max()}
+
+\Hypertarget{namespacecontexte_a38bc201d341287d304c535de5244828e}\label{namespacecontexte_a38bc201d341287d304c535de5244828e} 
+\index{contexte@{contexte}!sep@{sep}}
+\index{sep@{sep}!contexte@{contexte}}
+\doxysubsubsection{\texorpdfstring{sep}{sep}}
+{\footnotesize\ttfamily contexte.\+sep}
+

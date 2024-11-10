@@ -1,0 +1,101 @@
+\doxysection{api Namespace Reference}
+\hypertarget{namespaceapi}{}\label{namespaceapi}\index{api@{api}}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classapi_1_1_consumption_input}{Consumption\+Input}}
+\item 
+class \mbox{\hyperlink{classapi_1_1_label_input}{Label\+Input}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespaceapi_a08ed5ba7e0db8ef6c91e06a5973f8cdb}{predict\+\_\+label}} (\mbox{\hyperlink{classapi_1_1_label_input}{Label\+Input}} input\+\_\+data, str model\+\_\+type="{}knn"{})
+\item 
+\mbox{\hyperlink{namespaceapi_ad84a7cfe9b921fe797fafd958305cc70}{predict\+\_\+consumption}} (\mbox{\hyperlink{classapi_1_1_consumption_input}{Consumption\+Input}} input\+\_\+data, str model\+\_\+type="{}xgboost"{})
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespaceapi_a484bbf20571943d1aceb9cfc79748b48}{app}} = Fast\+API()
+\item 
+\mbox{\hyperlink{namespaceapi_a31f2e63d5db9276a66822b8c6db7d895}{level}}
+\item 
+dict \mbox{\hyperlink{namespaceapi_afb6e5f477813826e4a64e84ce20aca7f}{models}}
+\item 
+dict \mbox{\hyperlink{namespaceapi_a3b2d496047c7fcc0ea07d199c6542153}{label\+\_\+mapping}} = \{0\+: "{}A"{}, 1\+: "{}B"{}, 2\+: "{}C"{}, 3\+: "{}D"{}, 4\+: "{}E"{}, 5\+: "{}F"{}, 6\+: "{}G"{}\}
+\item 
+dict \mbox{\hyperlink{namespaceapi_a374168ee401327673bc6cf378b924595}{etiquette\+\_\+ges\+\_\+mapping}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{namespaceapi_ad84a7cfe9b921fe797fafd958305cc70}\label{namespaceapi_ad84a7cfe9b921fe797fafd958305cc70} 
+\index{api@{api}!predict\_consumption@{predict\_consumption}}
+\index{predict\_consumption@{predict\_consumption}!api@{api}}
+\doxysubsubsection{\texorpdfstring{predict\_consumption()}{predict\_consumption()}}
+{\footnotesize\ttfamily api.\+predict\+\_\+consumption (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classapi_1_1_consumption_input}{Consumption\+Input}}}]{input\+\_\+data,  }\item[{str }]{model\+\_\+type = {\ttfamily "{}xgboost"{}} }\end{DoxyParamCaption})}
+
+\Hypertarget{namespaceapi_a08ed5ba7e0db8ef6c91e06a5973f8cdb}\label{namespaceapi_a08ed5ba7e0db8ef6c91e06a5973f8cdb} 
+\index{api@{api}!predict\_label@{predict\_label}}
+\index{predict\_label@{predict\_label}!api@{api}}
+\doxysubsubsection{\texorpdfstring{predict\_label()}{predict\_label()}}
+{\footnotesize\ttfamily api.\+predict\+\_\+label (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classapi_1_1_label_input}{Label\+Input}}}]{input\+\_\+data,  }\item[{str }]{model\+\_\+type = {\ttfamily "{}knn"{}} }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{namespaceapi_a484bbf20571943d1aceb9cfc79748b48}\label{namespaceapi_a484bbf20571943d1aceb9cfc79748b48} 
+\index{api@{api}!app@{app}}
+\index{app@{app}!api@{api}}
+\doxysubsubsection{\texorpdfstring{app}{app}}
+{\footnotesize\ttfamily api.\+app = Fast\+API()}
+
+\Hypertarget{namespaceapi_a374168ee401327673bc6cf378b924595}\label{namespaceapi_a374168ee401327673bc6cf378b924595} 
+\index{api@{api}!etiquette\_ges\_mapping@{etiquette\_ges\_mapping}}
+\index{etiquette\_ges\_mapping@{etiquette\_ges\_mapping}!api@{api}}
+\doxysubsubsection{\texorpdfstring{etiquette\_ges\_mapping}{etiquette\_ges\_mapping}}
+{\footnotesize\ttfamily dict api.\+etiquette\+\_\+ges\+\_\+mapping}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ =\ \ \{}
+\DoxyCodeLine{00002\ \ \ \ \ \textcolor{stringliteral}{"{}A"{}}:\ 0,}
+\DoxyCodeLine{00003\ \ \ \ \ \textcolor{stringliteral}{"{}B"{}}:\ 1,}
+\DoxyCodeLine{00004\ \ \ \ \ \textcolor{stringliteral}{"{}C"{}}:\ 2,}
+\DoxyCodeLine{00005\ \ \ \ \ \textcolor{stringliteral}{"{}D"{}}:\ 3,}
+\DoxyCodeLine{00006\ \ \ \ \ \textcolor{stringliteral}{"{}E"{}}:\ 4,}
+\DoxyCodeLine{00007\ \ \ \ \ \textcolor{stringliteral}{"{}F"{}}:\ 5,}
+\DoxyCodeLine{00008\ \ \ \ \ \textcolor{stringliteral}{"{}G"{}}:\ 6}
+\DoxyCodeLine{00009\ \}}
+
+\end{DoxyCode}
+\Hypertarget{namespaceapi_a3b2d496047c7fcc0ea07d199c6542153}\label{namespaceapi_a3b2d496047c7fcc0ea07d199c6542153} 
+\index{api@{api}!label\_mapping@{label\_mapping}}
+\index{label\_mapping@{label\_mapping}!api@{api}}
+\doxysubsubsection{\texorpdfstring{label\_mapping}{label\_mapping}}
+{\footnotesize\ttfamily dict api.\+label\+\_\+mapping = \{0\+: "{}A"{}, 1\+: "{}B"{}, 2\+: "{}C"{}, 3\+: "{}D"{}, 4\+: "{}E"{}, 5\+: "{}F"{}, 6\+: "{}G"{}\}}
+
+\Hypertarget{namespaceapi_a31f2e63d5db9276a66822b8c6db7d895}\label{namespaceapi_a31f2e63d5db9276a66822b8c6db7d895} 
+\index{api@{api}!level@{level}}
+\index{level@{level}!api@{api}}
+\doxysubsubsection{\texorpdfstring{level}{level}}
+{\footnotesize\ttfamily api.\+level}
+
+\Hypertarget{namespaceapi_afb6e5f477813826e4a64e84ce20aca7f}\label{namespaceapi_afb6e5f477813826e4a64e84ce20aca7f} 
+\index{api@{api}!models@{models}}
+\index{models@{models}!api@{api}}
+\doxysubsubsection{\texorpdfstring{models}{models}}
+{\footnotesize\ttfamily dict api.\+models}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ =\ \ \{}
+\DoxyCodeLine{00002\ \ \ \ \ \textcolor{stringliteral}{"{}consumption\_xgboost"{}}:\ joblib.load(\textcolor{stringliteral}{"{}../models/xgboost.pkl"{}}),}
+\DoxyCodeLine{00003\ \ \ \ \ \textcolor{stringliteral}{"{}consumption\_rdforest"{}}:\ joblib.load(\textcolor{stringliteral}{"{}../models/rdforest.joblib"{}}),}
+\DoxyCodeLine{00004\ \ \ \ \ \textcolor{comment}{\#"{}consumption\_linearreg"{}:\ joblib.load("{}linearReg.pkl"{}),}}
+\DoxyCodeLine{00005\ \ \ \ \ \textcolor{stringliteral}{"{}label\_knn"{}}:\ joblib.load(\textcolor{stringliteral}{"{}../models/etiquette\_knn\_model.pkl"{}}),}
+\DoxyCodeLine{00006\ \ \ \ \ \textcolor{stringliteral}{"{}label\_arbre"{}}:\ joblib.load(\textcolor{stringliteral}{"{}../models/etiquette\_arbre\_de\_decision\_model.pkl"{}})}
+\DoxyCodeLine{00007\ \}}
+
+\end{DoxyCode}

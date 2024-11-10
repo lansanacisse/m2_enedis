@@ -1,0 +1,153 @@
+\doxysection{pre\+\_\+processing Namespace Reference}
+\hypertarget{namespacepre__processing}{}\label{namespacepre__processing}\index{pre\_processing@{pre\_processing}}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespacepre__processing_a4ba2611f2866e8d02217ee6407d1f713}{import\+\_\+data}} (chemin)
+\item 
+\mbox{\hyperlink{namespacepre__processing_add7301b886ee513a03cc7865bb5d8b8a}{percent\+\_\+missing}} (df)
+\begin{DoxyCompactList}\small\item\em Calcule le pourcentage de valeurs manquantes pour chaque colonne du Data\+Frame. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespacepre__processing_a173cbab059dad2ca32ff3eb38e07c40d}{encodage\+\_\+variables\+\_\+categorielles}} (df)
+\begin{DoxyCompactList}\small\item\em Encode les variables catégorielles en valeurs numériques. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespacepre__processing_ac6bce7761ef9ad97908025f30e374a6e}{gestion\+\_\+valeurs\+\_\+manquantes}} (df)
+\begin{DoxyCompactList}\small\item\em Gère les valeurs manquantes en remplissant avec la médiane de chaque colonne. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespacepre__processing_a29f06ba02eb9f886fd971c36a05cffaa}{gestion\+\_\+outliers}} (df)
+\begin{DoxyCompactList}\small\item\em Gère les valeurs aberrantes (outliers) pour les colonnes numériques. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespacepre__processing_a92d631dbe6b38ee0bd12a54c8aada222}{gestion\+\_\+standardisation}} (df)
+\begin{DoxyCompactList}\small\item\em Standardise les données en utilisant Standard\+Scaler. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespacepre__processing_a1eee5b1feba07654deb74aa6b12b84ed}{preprocess\+\_\+data}} (df, sauvegarde=False)
+\begin{DoxyCompactList}\small\item\em Prépocesse le Data\+Frame en nettoyant et transformant les données. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{namespacepre__processing_a173cbab059dad2ca32ff3eb38e07c40d}\label{namespacepre__processing_a173cbab059dad2ca32ff3eb38e07c40d} 
+\index{pre\_processing@{pre\_processing}!encodage\_variables\_categorielles@{encodage\_variables\_categorielles}}
+\index{encodage\_variables\_categorielles@{encodage\_variables\_categorielles}!pre\_processing@{pre\_processing}}
+\doxysubsubsection{\texorpdfstring{encodage\_variables\_categorielles()}{encodage\_variables\_categorielles()}}
+{\footnotesize\ttfamily pre\+\_\+processing.\+encodage\+\_\+variables\+\_\+categorielles (\begin{DoxyParamCaption}\item[{}]{df }\end{DoxyParamCaption})}
+
+
+
+Encode les variables catégorielles en valeurs numériques. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em df} & pandas.\+Data\+Frame contenant les variables catégorielles à encoder \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pandas.\+Data\+Frame avec les variables catégorielles encodées 
+\end{DoxyReturn}
+\Hypertarget{namespacepre__processing_a29f06ba02eb9f886fd971c36a05cffaa}\label{namespacepre__processing_a29f06ba02eb9f886fd971c36a05cffaa} 
+\index{pre\_processing@{pre\_processing}!gestion\_outliers@{gestion\_outliers}}
+\index{gestion\_outliers@{gestion\_outliers}!pre\_processing@{pre\_processing}}
+\doxysubsubsection{\texorpdfstring{gestion\_outliers()}{gestion\_outliers()}}
+{\footnotesize\ttfamily pre\+\_\+processing.\+gestion\+\_\+outliers (\begin{DoxyParamCaption}\item[{}]{df }\end{DoxyParamCaption})}
+
+
+
+Gère les valeurs aberrantes (outliers) pour les colonnes numériques. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em df} & pandas.\+Data\+Frame contenant les données à traiter \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pandas.\+Data\+Frame avec outliers remplacés par la médiane 
+\end{DoxyReturn}
+\Hypertarget{namespacepre__processing_a92d631dbe6b38ee0bd12a54c8aada222}\label{namespacepre__processing_a92d631dbe6b38ee0bd12a54c8aada222} 
+\index{pre\_processing@{pre\_processing}!gestion\_standardisation@{gestion\_standardisation}}
+\index{gestion\_standardisation@{gestion\_standardisation}!pre\_processing@{pre\_processing}}
+\doxysubsubsection{\texorpdfstring{gestion\_standardisation()}{gestion\_standardisation()}}
+{\footnotesize\ttfamily pre\+\_\+processing.\+gestion\+\_\+standardisation (\begin{DoxyParamCaption}\item[{}]{df }\end{DoxyParamCaption})}
+
+
+
+Standardise les données en utilisant Standard\+Scaler. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em df} & pandas.\+Data\+Frame contenant les données à standardiser \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pandas.\+Data\+Frame standardisé 
+\end{DoxyReturn}
+\Hypertarget{namespacepre__processing_ac6bce7761ef9ad97908025f30e374a6e}\label{namespacepre__processing_ac6bce7761ef9ad97908025f30e374a6e} 
+\index{pre\_processing@{pre\_processing}!gestion\_valeurs\_manquantes@{gestion\_valeurs\_manquantes}}
+\index{gestion\_valeurs\_manquantes@{gestion\_valeurs\_manquantes}!pre\_processing@{pre\_processing}}
+\doxysubsubsection{\texorpdfstring{gestion\_valeurs\_manquantes()}{gestion\_valeurs\_manquantes()}}
+{\footnotesize\ttfamily pre\+\_\+processing.\+gestion\+\_\+valeurs\+\_\+manquantes (\begin{DoxyParamCaption}\item[{}]{df }\end{DoxyParamCaption})}
+
+
+
+Gère les valeurs manquantes en remplissant avec la médiane de chaque colonne. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em df} & pandas.\+Data\+Frame contenant des valeurs manquantes \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pandas.\+Data\+Frame avec valeurs manquantes gérées 
+\end{DoxyReturn}
+\Hypertarget{namespacepre__processing_a4ba2611f2866e8d02217ee6407d1f713}\label{namespacepre__processing_a4ba2611f2866e8d02217ee6407d1f713} 
+\index{pre\_processing@{pre\_processing}!import\_data@{import\_data}}
+\index{import\_data@{import\_data}!pre\_processing@{pre\_processing}}
+\doxysubsubsection{\texorpdfstring{import\_data()}{import\_data()}}
+{\footnotesize\ttfamily pre\+\_\+processing.\+import\+\_\+data (\begin{DoxyParamCaption}\item[{}]{chemin }\end{DoxyParamCaption})}
+
+\Hypertarget{namespacepre__processing_add7301b886ee513a03cc7865bb5d8b8a}\label{namespacepre__processing_add7301b886ee513a03cc7865bb5d8b8a} 
+\index{pre\_processing@{pre\_processing}!percent\_missing@{percent\_missing}}
+\index{percent\_missing@{percent\_missing}!pre\_processing@{pre\_processing}}
+\doxysubsubsection{\texorpdfstring{percent\_missing()}{percent\_missing()}}
+{\footnotesize\ttfamily pre\+\_\+processing.\+percent\+\_\+missing (\begin{DoxyParamCaption}\item[{}]{df }\end{DoxyParamCaption})}
+
+
+
+Calcule le pourcentage de valeurs manquantes pour chaque colonne du Data\+Frame. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em df} & pandas.\+Data\+Frame pour lequel on calcule les valeurs manquantes \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pandas.\+Series contenant les pourcentages de valeurs manquantes pour chaque colonne 
+\end{DoxyReturn}
+\Hypertarget{namespacepre__processing_a1eee5b1feba07654deb74aa6b12b84ed}\label{namespacepre__processing_a1eee5b1feba07654deb74aa6b12b84ed} 
+\index{pre\_processing@{pre\_processing}!preprocess\_data@{preprocess\_data}}
+\index{preprocess\_data@{preprocess\_data}!pre\_processing@{pre\_processing}}
+\doxysubsubsection{\texorpdfstring{preprocess\_data()}{preprocess\_data()}}
+{\footnotesize\ttfamily pre\+\_\+processing.\+preprocess\+\_\+data (\begin{DoxyParamCaption}\item[{}]{df,  }\item[{}]{sauvegarde = {\ttfamily False} }\end{DoxyParamCaption})}
+
+
+
+Prépocesse le Data\+Frame en nettoyant et transformant les données. 
+
+Effectue les étapes suivantes \+: suppression des doublons, des colonnes ayant \texorpdfstring{$>$}{>}30\% de valeurs manquantes, encodage des variables catégorielles, gestion des valeurs manquantes et des outliers.
+
+
+\begin{DoxyParams}{Parameters}
+{\em df} & pandas.\+Data\+Frame à prétraiter \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pandas.\+Data\+Frame après prétraitement
+\end{DoxyReturn}
+Les étapes incluent \+:
+\begin{DoxyItemize}
+\item Suppression des doublons
+\item Suppression des colonnes avec \texorpdfstring{$>$}{>}30\% de valeurs manquantes
+\item Encodage des variables catégorielles
+\item Gestion des valeurs manquantes (par la médiane)
+\item Gestion des outliers (remplacés par la médiane)
+\end{DoxyItemize}
+
+\begin{DoxyNote}{Note}
+La normalisation est commentée car elle n\textquotesingle{}est pas nécessaire pour les arbres de décision.
+\end{DoxyNote}
+\begin{DoxyRemark}{Remarks}
+Les données prétraitées sont exportées dans un fichier CSV "{}preprocessed\+\_\+data.\+csv"{} 
+\end{DoxyRemark}
