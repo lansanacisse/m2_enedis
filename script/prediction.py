@@ -91,8 +91,8 @@ def get_model_params(model_option, default_params):
     elif model_option == "Arbre de Décision":
         params["criterion"] = st.sidebar.selectbox(
             "Critère",
-            ["squared_error", "absolute_error", "friedman_mse", "poisson"],
-            index=["squared_error", "absolute_error", "friedman_mse", "poisson"].index(
+            ["entropy", "gini", "log_loss"],
+            index=["entropy", "gini", "log_loss"].index(
                 default_params["Arbre de Décision"]["criterion"]
             ),
         )
