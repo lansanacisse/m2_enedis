@@ -70,6 +70,10 @@ Si ces fichiers sont manquants, pensez à exécuter le notebook `Mynotebook.ipyn
 [Documentation](docs/html/index.html)
 
 
+
 ## Liens
 
 Insert gif or link to demo
+[OpenData-InfoClimat(température)](https://www.infoclimat.fr/opendata/)
+[ADEME DPE Logements existants](https://data.ademe.fr/datasets/dpe-v2-logements-existants/api-doc)
+[ADEME DPE Logements neufs](https://data.ademe.fr/datasets/dpe-v2-logements-neufs)
