@@ -50,13 +50,13 @@ api_process = start_api()
 
 
 # Configuration de la page
-st.set_page_config(page_title="GreeTech App", page_icon="⚡", layout="wide")
+st.set_page_config(page_title="GreenTech App", page_icon="⚡", layout="wide")
 
 # Afficher le logo avec une taille personnalisée
 st.sidebar.image("../data/logo.png", width=300)
 # Barre latérale de navigation
 
-st.sidebar.header("GreeTech App ⚡")
+st.sidebar.header("GreenTech App ⚡")
 options = {
     "🏠 Accueil": "accueil",
     "📊 Contexte": "contexte",
@@ -88,7 +88,7 @@ elif page_key == "prediction_api":
 
 # Pied de page avec logos
 st.sidebar.markdown("---")
-st.sidebar.info("© 2024 GreeTech App. Tous droits réservés.")
+st.sidebar.info("© 2024 GreenTech App. Tous droits réservés.")
 
 
 # Assurer la fermeture de l'API quand Streamlit est arrêté
