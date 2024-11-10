@@ -67,7 +67,7 @@ Si ces fichiers sont manquants, pensez à exécuter le notebook `Mynotebook.ipyn
 
 ## Documentation
 
-[Documentation](https://linktodocumentation)
+[Documentation](docs/html/index.html)
 
 
 ## Liens
