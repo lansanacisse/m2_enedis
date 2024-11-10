@@ -357,21 +357,21 @@ def predict(type_prediction, model, **kwargs):
 
         # Extraire les variables nécessaires pour la prédiction de l'étiquette DPE
         columns = [
-            "conso_chauffage",
-            "conso_5_usages_finale",
-            "emission_ges",
-            "etiquette_GES",
-            "cout_eclairage",
+            "Conso_5_usages_par_m²_é_primaire",
+            "Conso_5_usages/m²_é_finale",
+            "Emission_GES_5_usages_par_m²",
+            "Etiquette_GES",
+            "Coût_éclairage",
         ]
 
         X = pd.DataFrame(
             [
                 [
-                    encoded_data.get("conso_chauffage"),
-                    encoded_data.get("conso_5_usages_finale"),
-                    encoded_data.get("emission_ges"),
-                    encoded_data.get("etiquette_GES"),
-                    encoded_data.get("cout_eclairage"),
+                    encoded_data.get("Conso_5_usages_par_m²_é_primaire"),
+                    encoded_data.get("Conso_5_usages/m²_é_finale"),
+                    encoded_data.get("Emission_GES_5_usages_par_m²"),
+                    encoded_data.get("Etiquette_GES"),
+                    encoded_data.get("Coût_éclairage"),
                 ]
             ],
             columns=columns,

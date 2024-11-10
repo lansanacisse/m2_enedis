@@ -11,6 +11,7 @@ from sklearn.neighbors import KNeighborsClassifier
 from xgboost import XGBRegressor
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestRegressor
+from sklearn.impute import SimpleImputer
 from sklearn.model_selection import train_test_split
 import joblib
 
@@ -311,38 +312,39 @@ def prediction_page():
         )
         cout_eclairage = st.number_input("Coût éclairage", key="cout_eclairage")
 
-        # Organisation des données d'entrée
-        input_data = {
-            "conso_5_usages_par_m2_e_primaire": conso_5_usages_par_m2_e_primaire,
-            "conso_5_usages_m2_e_finale": conso_5_usages_m2_e_finale,
-            "emission_GES": emission_GES,
-            "etiquette_GES": etiquette_GES,
-            "cout_eclairage": cout_eclairage,
-        }
-
-        # Conversion en DataFrame pour faciliter l'imputation
-        input_data_df = pd.DataFrame([input_data])
-
-        # Imputation des valeurs manquantes
-        imputer = SimpleImputer(strategy="mean")
-        input_data_imputed = imputer.fit_transform(input_data_df)
-
-        # Vérifier si les valeurs manquantes ont été bien traitées
-        if input_data_df.isnull().values.any():
-            st.warning(
-                "Veuillez saisir toutes les caractéristiques du logement avant de lancer la prédiction."
-            )
-        else:
-            # Appel de la fonction de prédiction avec les données imputées
-            etiq_dpe = predict(
-                type_prediction="Étiquette DPE",
-                model=model,
-                **dict(zip(input_data.keys(), input_data_imputed[0])),
-            )
-
-            # Conversion de la prédiction numérique en lettre pour l'étiquette DPE
-            etiquette_dpe_map = {0: "A", 1: "B", 2: "C", 3: "D", 4: "E", 5: "F", 6: "G"}
-            etiq_dpe = etiquette_dpe_map.get(etiq_dpe)
-            st.write(
-                f"D'après les caractéristiques du logement, l'étiquette DPE prédite est: {etiq_dpe}"
-            )
+        if st.button("Prédire l'étiquette DPE", key="predict_button_dpe"):
+            # Vérifier si tous les champs sont renseignés
+            if (
+                not conso_5_usages_par_m2_e_primaire
+                or not conso_5_usages_m2_e_finale
+                or not emission_GES
+                or not etiquette_GES
+                or not cout_eclairage
+            ):
+                st.warning(
+                    "Veuillez saisir toutes les caractéristiques du logement avant de lancer la prédiction."
+                )
+            else:
+                etiq_dpe = predict(
+                    type_prediction="Étiquette DPE",
+                    model=model,
+                    conso_5_usages_par_m2_e_primaire=conso_5_usages_par_m2_e_primaire,
+                    conso_5_usages_m2_e_finale=conso_5_usages_m2_e_finale,
+                    emission_ges=emission_GES,
+                    etiquette_GES=etiquette_GES,
+                    cout_eclairage=cout_eclairage,
+                    **params,
+                )
+                etiquette_dpe_map = {
+                    0: "A",
+                    1: "B",
+                    2: "C",
+                    3: "D",
+                    4: "E",
+                    5: "F",
+                    6: "G",
+                }
+                etiq_dpe = etiquette_dpe_map.get(etiq_dpe)
+                st.write(
+                    f"D'après les caractéristiques du logement, l'étiquette DPE prédite est: {etiq_dpe}"
+                )
