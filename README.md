@@ -27,6 +27,7 @@ Elle utilise des modèles d’apprentissage automatique pour estimer l’étique
 2. Installez les dépendances :
 
     ```bash
+    cd script
     pip install -r requirements.txt
     ```
 
@@ -41,13 +42,14 @@ Elle utilise des modèles d’apprentissage automatique pour estimer l’étique
 - **consommation_arbre_de_decision_model.pkl**
 - **consommation_random_forest_model.pkl**
 
-Si ces fichiers sont manquants, pensez à exécuter le notebook Mynotebook.ipynb pour les générer.
+Si ces fichiers sont manquants, pensez à exécuter le notebook `Mynotebook.ipynb` pour les générer.
 
 
 2. Lancez l'application Streamlit :
 
     ```bash
-    streamlit run models/MyApp.py
+    cd script
+    streamlit run MyApp.py
     ```
 
 3. Ouvrez votre navigateur et accédez à l'URL suivante :
