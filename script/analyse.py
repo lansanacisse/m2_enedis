@@ -23,19 +23,18 @@ data = pd.read_csv("../data/dataset_M2_enedis.csv", sep=";")
 def analyse_page():
     st.title("Analyse des Données")
 
-  st.write(
-    """
-    Cette page offre une analyse approfondie des données de performance énergétique des logements de la région Rhône-Alpes.
-    Elle permet de visualiser les données sous forme de graphiques interactifs et intuitifs, afin de mieux comprendre les tendances
-    générales et d'explorer les relations entre différentes variables, telles que l’étiquette DPE, la consommation énergétique,
-    la taille des logements, l’année de construction, et bien d'autres paramètres.
-    
-    En utilisant divers outils de filtrage et de tri, vous pouvez examiner les indicateurs clés de performance et isoler les
-    caractéristiques qui influencent le plus les performances énergétiques. Cette analyse facilite ainsi l’identification des
-    principaux leviers pour améliorer l'efficacité énergétique des logements dans la région.
-    """
+    st.write(
+        """
+        Cette page offre une analyse approfondie des données de performance énergétique des logements de la région Rhône-Alpes.
+        Elle permet de visualiser les données sous forme de graphiques interactifs et intuitifs, afin de mieux comprendre les tendances
+        générales et d'explorer les relations entre différentes variables, telles que l’étiquette DPE, la consommation énergétique,
+        la taille des logements, l’année de construction, et bien d'autres paramètres.
+        
+        En utilisant divers outils de filtrage et de tri, vous pouvez examiner les indicateurs clés de performance et isoler les
+        caractéristiques qui influencent le plus les performances énergétiques. Cette analyse facilite ainsi l’identification des
+        principaux leviers pour améliorer l'efficacité énergétique des logements dans la région.
+        """
     )
-
 
 
 def visualisation(data):
