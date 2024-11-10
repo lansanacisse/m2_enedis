@@ -27,14 +27,14 @@ default_params = {
         "colsample_bytree": 1.0,
     },
     "Arbre de Décision": {
-        "criterion": "squared_error",
+        "criterion": "entropy",
         "max_depth": None,
         "min_samples_split": 2,
         "min_samples_leaf": 1,
     },
     "Forêt Aléatoire": {
         "n_estimators": 100,
-        "criterion": "squared_error",
+        "criterion": "entropy",
         "max_depth": None,
         "min_samples_split": 2,
         "min_samples_leaf": 1,
@@ -119,8 +119,8 @@ def get_model_params(model_option, default_params):
         )
         params["criterion"] = st.sidebar.selectbox(
             "Critère",
-            ["squared_error", "absolute_error", "friedman_mse", "poisson"],
-            index=["squared_error", "absolute_error", "friedman_mse", "poisson"].index(
+            ["entropy", "gini", "log_loss"],
+            index=["entropy", "gini", "log_loss"].index(
                 default_params["Forêt Aléatoire"]["criterion"]
             ),
         )
@@ -183,7 +183,7 @@ def prediction_page():
     if prediction_type == "Étiquette DPE":
         model_option = st.sidebar.selectbox(
             "Choisissez un modèle de prédiction",
-            ["K-nearest neighbors", "Forêt Aléatoire", "Arbre de Décision"],
+            ["Forêt Aléatoire", "Arbre de Décision", "K-nearest neighbors",],
         )
         target_variable = "Etiquette_DPE"
     elif prediction_type == "Consommation Énergétique":
