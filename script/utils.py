@@ -402,7 +402,7 @@ def calculate_kpis(data):
 
 
 def afficher_kpis(kpis):
-    st.header("Indicateurs Clés de Performance (KPI)")
+    st.title("Indicateurs Clés de Performance (KPI)")
     st.markdown("---")
 
     # Noms lisibles pour les KPI avec textes réduits

@@ -8,7 +8,7 @@ import requests
 
 def contexte_page():
     st.header("Données")
-    st.write(
+     st.write(
         """
         Les données utilisées dans cette application sont des informations sur la performance énergétique 
         des logements en France. Les données sont collectées par le Ministère de la Transition Écologique et 
