@@ -1,0 +1,80 @@
+\chapter{M2 Enedis}
+\hypertarget{md__r_e_a_d_m_e}{}\label{md__r_e_a_d_m_e}\index{M2 Enedis@{M2 Enedis}}
+\label{md__r_e_a_d_m_e_autotoc_md0}%
+\Hypertarget{md__r_e_a_d_m_e_autotoc_md0}%
+Cette application permet d’analyser et de prédire le Diagnostic de Performance Énergétique (DPE) et la consommation énergétique des logements situés à Lyon (69). Elle utilise des modèles d’apprentissage automatique pour estimer l’étiquette DPE et la consommation énergétique en fonction des caractéristiques du logement.\hypertarget{md__r_e_a_d_m_e_autotoc_md1}{}\doxysection{\texorpdfstring{Fonctionnalités}{Fonctionnalités}}\label{md__r_e_a_d_m_e_autotoc_md1}
+
+\begin{DoxyItemize}
+\item {\bfseries{Accueil}} \+: Présentation de l\textquotesingle{}application et de ses fonctionnalités.
+\item {\bfseries{Contexte}} \+: Permet d\textquotesingle{}explorer les données du projet et d\textquotesingle{}obtenir de nouvelles données en faisant appel à l\textquotesingle{}API.
+\item {\bfseries{Analyse}} \+: Permet de suivre les différents KPI et de visualiser les données à l\textquotesingle{}aide de divers graphiques ainsi qu\textquotesingle{}une carte de géolocalisation.
+\item {\bfseries{Prédiction Locale}} \+: Permet de réaliser des prédictions spécifiques à un logement en fonction de ses caractéristiques locales, en fournissant une estimation personnalisée du Diagnostic de Performance Énergétique (DPE) et de la consommation énergétique.
+\item {\bfseries{Prédiction avec API}} \+: Permet de réaliser des prédictions en utilisant l\textquotesingle{}API pour obtenir des estimations automatisées du Diagnostic de Performance Énergétique (DPE) et de la consommation énergétique à partir des caractéristiques des logements.
+\end{DoxyItemize}\hypertarget{md__r_e_a_d_m_e_autotoc_md2}{}\doxysection{\texorpdfstring{Prérequis}{Prérequis}}\label{md__r_e_a_d_m_e_autotoc_md2}
+
+\begin{DoxyItemize}
+\item Python 3.\+7 ou supérieur
+\item {\ttfamily pip} pour installer les dépendances
+\end{DoxyItemize}\hypertarget{md__r_e_a_d_m_e_autotoc_md3}{}\doxysection{\texorpdfstring{Installation}{Installation}}\label{md__r_e_a_d_m_e_autotoc_md3}
+
+\begin{DoxyEnumerate}
+\item Clonez le dépôt \+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{git\ clone\ https://github.com/lansanacisse/m2\_enedis.git}
+\DoxyCodeLine{cd\ m2\_enedis}
+
+\end{DoxyCode}
+
+\item Installez les dépendances \+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{pip\ install\ -\/r\ requirements.txt}
+
+\end{DoxyCode}
+
+\end{DoxyEnumerate}\hypertarget{md__r_e_a_d_m_e_autotoc_md4}{}\doxysection{\texorpdfstring{Utilisation}{Utilisation}}\label{md__r_e_a_d_m_e_autotoc_md4}
+
+\begin{DoxyEnumerate}
+\item Assurez-\/vous que les fichiers .pkl suivants sont bien présents pour la prédiction locale \+:
+\end{DoxyEnumerate}
+\begin{DoxyItemize}
+\item {\bfseries{etiquette\+\_\+knn\+\_\+model.\+pkl}}
+\item {\bfseries{etiquette\+\_\+arbre\+\_\+de\+\_\+decision\+\_\+model.\+pkl}}
+\item {\bfseries{etiquette\+\_\+random\+\_\+forest\+\_\+model.\+pkl}}
+\item {\bfseries{consommation\+\_\+xgboost\+\_\+model.\+pkl}}
+\item {\bfseries{consommation\+\_\+arbre\+\_\+de\+\_\+decision\+\_\+model.\+pkl}}
+\item {\bfseries{consommation\+\_\+random\+\_\+forest\+\_\+model.\+pkl}}
+\end{DoxyItemize}
+
+Si ces fichiers sont manquants, pensez à exécuter le notebook Mynotebook.\+ipynb pour les générer.
+
+
+\begin{DoxyEnumerate}
+\item Lancez l\textquotesingle{}application Streamlit \+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{streamlit\ run\ models/MyApp.py}
+
+\end{DoxyCode}
+
+\item Ouvrez votre navigateur et accédez à l\textquotesingle{}URL suivante \+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{http://localhost:8501}
+
+\end{DoxyCode}
+
+\end{DoxyEnumerate}\hypertarget{md__r_e_a_d_m_e_autotoc_md5}{}\doxysection{\texorpdfstring{Auteurs}{Auteurs}}\label{md__r_e_a_d_m_e_autotoc_md5}
+
+\begin{DoxyItemize}
+\item \href{https://github.com/lansanacisse}{\texttt{ Lansana CISSE}}
+\item \href{https://github.com/QL2111}{\texttt{ Quentin Lim}}
+\item \href{https://github.com/Linn2d}{\texttt{ Linh Nhi LE DINH}}
+\end{DoxyItemize}\hypertarget{md__r_e_a_d_m_e_autotoc_md6}{}\doxysection{\texorpdfstring{Documentation}{Documentation}}\label{md__r_e_a_d_m_e_autotoc_md6}
+\href{https://linktodocumentation}{\texttt{ Documentation}}\hypertarget{md__r_e_a_d_m_e_autotoc_md7}{}\doxysection{\texorpdfstring{Liens}{Liens}}\label{md__r_e_a_d_m_e_autotoc_md7}
+Insert gif or link to demo 
