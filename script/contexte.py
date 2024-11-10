@@ -204,7 +204,7 @@ def contexte_page():
 
 
     # Bouton pour lancer l'appel API
-    if st.button("Lancer l'appel API"):
+    if st.button("Lancer l'appel API pour récupérer toutes les données"):
         with st.spinner("Appel de l'API en cours..."):
             # Appel API pour logements existants
             df_existants = call_API(base_url_existant)
