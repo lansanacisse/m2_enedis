@@ -10,6 +10,9 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.linear_model import LinearRegression
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestRegressor
+from xgboost import XGBRegressor
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 import joblib
 import matplotlib.pyplot as plt
