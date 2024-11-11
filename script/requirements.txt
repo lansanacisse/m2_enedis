@@ -15,6 +15,4 @@ pydantic
 logging
 requests
 statsmodels
-subprocess
-time
 pickle
