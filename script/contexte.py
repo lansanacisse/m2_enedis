@@ -4,6 +4,8 @@ import pandas as pd
 from io import BytesIO
 import matplotlib.pyplot as plt
 import requests
+import os
+import pandas as pd
 
 
 def contexte_page():
@@ -19,10 +21,13 @@ def contexte_page():
     )
 
     # Charger les données
-    data = pd.read_csv(
-        "../data/dataset_M2_enedis.csv", sep=";"
-    )  # Remplacer ce champ par dataset_M2_enedis.csv qui contiennent toutes les données
-    # Filtres
+
+
+    current_dir = os.path.dirname(__file__)
+    file_path = os.path.join(current_dir, "..", "data", "dataset_M2_enedis.csv")
+
+    data = pd.read_csv(file_path, sep=";")
+
     st.sidebar.subheader("Filtres")
 
     # Choisir une variable à filtrer avec "Etiquette_DPE" comme valeur par défaut
@@ -87,7 +92,10 @@ def contexte_page():
     )
 
     # Chargement des codes postaux du département du Rhône (69)
-    df_rhone = pd.read_csv("../data/adresses-69.csv", sep=";")
+    current_dir = os.path.dirname(__file__)
+    file_path = os.path.join(current_dir, "..", "data", "adresses-69.csv")
+
+    df_rhone = pd.read_csv(file_path, sep=";")
     liste_code_postal_rhone = sorted(df_rhone["code_postal"].unique().tolist())
 
     # Fonction pour appeler l'API
@@ -99,7 +107,10 @@ def contexte_page():
     def call_API(url):
         all_results = []
         nb_ligne = 0
-        df_rhone = pd.read_csv("../data/adresses-69.csv", sep=";")
+        current_dir = os.path.dirname(__file__)
+        file_path = os.path.join(current_dir, "..", "data", "adresses-69.csv")
+
+        df_rhone = pd.read_csv(file_path, sep=";")
         liste_code_postal_rhone = sorted(df_rhone["code_postal"].unique().tolist())
 
         for code_postal in liste_code_postal_rhone:
@@ -157,7 +168,10 @@ def contexte_page():
     def rafraichir_donnees(url, oldest_date="2024-09-01"):
         all_results = []
         nb_ligne = 0
-        df_rhone = pd.read_csv("../data/adresses-69.csv", sep=";")
+        current_dir = os.path.dirname(__file__)
+        file_path = os.path.join(current_dir, "..", "data", "adresses-69.csv")
+
+        df_rhone = pd.read_csv(file_path, sep=";")
         liste_code_postal_rhone = sorted(df_rhone["code_postal"].unique().tolist())
 
         for code_postal in liste_code_postal_rhone:

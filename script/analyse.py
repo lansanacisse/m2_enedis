@@ -1,6 +1,8 @@
 import streamlit as st
 import pandas as pd
 import folium
+import os
+
 from streamlit_folium import folium_static
 import streamlit as st
 import pandas as pd
@@ -17,7 +19,10 @@ from utils import (
 )
 
 # Charger les données une fois pour les partager entre les fonctions
-data = pd.read_csv("../data/dataset_M2_enedis.csv", sep=";")
+current_dir = os.path.dirname(__file__)
+file_path = os.path.join(current_dir, "..", "data", "dataset_M2_enedis.csv")
+
+data = pd.read_csv(file_path, sep=";")
 
 
 def analyse_page():

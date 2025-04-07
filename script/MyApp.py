@@ -3,6 +3,7 @@ from accueil import accueil_page
 from analyse import analyse_page
 from prediction import prediction_page
 from contexte import contexte_page
+import os
 from analyse import visualisation, afficher_carte
 from prediction_API import (
     prediction_api_page,
@@ -12,8 +13,12 @@ import time
 import requests
 import pandas as pd
 
-# Data loading
-data = pd.read_csv("../data/dataset_M2_enedis.csv", sep=";")
+
+# Charger les données une fois pour les partager entre les fonctions
+current_dir = os.path.dirname(__file__)
+file_path = os.path.join(current_dir, "..", "data", "dataset_M2_enedis.csv")
+
+data = pd.read_csv(file_path, sep=";")
 
 
 # Fonction pour démarrer l'API FastAPI en arrière-plan
