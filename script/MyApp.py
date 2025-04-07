@@ -58,7 +58,11 @@ api_process = start_api()
 st.set_page_config(page_title="GreenTech App", page_icon="⚡", layout="wide")
 
 # Afficher le logo avec une taille personnalisée
-st.sidebar.image("../data/logo.png", width=300)
+# Charger les données une fois pour les partager entre les fonctions
+current_dir = os.path.dirname(__file__)
+file_path = os.path.join(current_dir, "..", "data", "logo.png")
+
+st.sidebar.image(file_path, width=300)
 # Barre latérale de navigation
 
 st.sidebar.header("GreenTech App ⚡")
