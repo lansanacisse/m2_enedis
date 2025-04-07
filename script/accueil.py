@@ -1,4 +1,5 @@
 import streamlit as st
+import os
 
 
 def accueil_page():
@@ -14,4 +15,7 @@ def accueil_page():
     """
     )
 
-    st.image("../data/greentech.jpg", use_column_width=True)
+
+    
+    image_path = os.path.join(os.path.dirname(__file__), "..", "data", "greentech.jpg")
+    st.image(image_path, use_column_width=True)
